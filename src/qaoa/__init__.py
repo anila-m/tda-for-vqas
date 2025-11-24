@@ -1,0 +1,3 @@
+"""
+Contains QAOA cost landscapes.
+"""
