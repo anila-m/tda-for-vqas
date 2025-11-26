@@ -9,6 +9,7 @@ from utils.resources import unitary, inputs_list
 from qnn.qnn_cost_func import CostFunction
 from utils.sampling_utils import get_uniformly_random_samples, get_latin_hypercube_samples
 from scipy.stats import qmc
+from scipy.optimize import approx_fprime
 import json
 from numpyencoder import NumpyEncoder
 
@@ -54,7 +55,7 @@ def generate_landscape(unitary=u_6D, s_rank=1, num_data_points=1, data_type=1, n
       landscape.append(data_point)
   return np.asarray(landscape, dtype=np.float32)
 
-def generate_landscape_from_sample_points(sample_points, unitary=u_6D, s_rank=1, num_data_points=1, data_type=1, random=True, transform_loss=False): #TODO: Signatur anpassen, damit sie zur andere Funktion passt
+def generate_landscape_from_sample_points(sample_points, unitary=u_6D, s_rank=1, num_data_points=1, data_type=1, random=True, transform_loss=False, min=0, max=1): #TODO: Signatur anpassen, damit sie zur andere Funktion passt
   num_qubits=2
   dim = 3*num_qubits
   config_id = get_conf_id(s_rank, num_data_points, data_type)
@@ -65,7 +66,7 @@ def generate_landscape_from_sample_points(sample_points, unitary=u_6D, s_rank=1,
   landscape = []
   landscape_limit = 2 * np.pi
   landscape = []
-  f = get_interval_transformation(0,2*landscape_limit)
+  f = get_interval_transformation(min,max)
   for i, point in enumerate(sample_points):
       loss = loss_func(point)
       if(transform_loss):
@@ -91,10 +92,12 @@ def boxplot_loss_values(transform_loss=False):
   
   # rough landscape: s rank 1, ndp 1
   loss_values_111 = []
+  loss_gradient_111 = []
   x_111 = np.asarray(inputs_list[0],dtype=complex)
   loss_func_111 = CostFunction(num_qubits=2, unitary=u_6D, inputs=x_111)
   # flat landscape: s rank 4, ndp 4
   loss_values_441 = []
+  loss_gradient_441 = []
   x_441 = np.asarray(inputs_list[15],dtype=complex)
   loss_func_441 = CostFunction(num_qubits=2, unitary=u_6D, inputs=x_441)
   
@@ -103,11 +106,17 @@ def boxplot_loss_values(transform_loss=False):
   for i, point in enumerate(sample_points):
       loss_111 = loss_func_111(point)
       loss_441 = loss_func_441(point)
-      if(transform_loss):
-        loss_111 = f(loss_111)
-        loss_441 = f(loss_441)
+
       loss_values_111.append(loss_111)
       loss_values_441.append(loss_441)
+
+      loss_grad_111 = approx_fprime(point, loss_func_111)
+      loss_grad_441 = approx_fprime(point, loss_func_441)
+
+      loss_gradient_111.append(np.linalg.norm(loss_grad_111)) # 2-norm of gradient
+      loss_gradient_441.append(np.linalg.norm(loss_grad_441)) # 2-norm of gradient
+
+  
   
   # boxplot of loss values
   data_dict = {"rough landscape (111)": loss_values_111, "flat landscape (441)": loss_values_441}
@@ -116,22 +125,33 @@ def boxplot_loss_values(transform_loss=False):
   ax.boxplot(data_dict.values())
   ax.set_xticklabels(data_dict.keys(), fontsize=14)
   ax.set_title(title, fontsize=16)
-  file_name = "loss_values_transformed_50_100_latin"
+  file_name = "boxplot_loss_values_latin"
+  plt.savefig(f"experiment_results/plots/Initial_QNN_tests/{file_name}.pdf", format='pdf',bbox_inches='tight')
+
+  # boxplot of loss values
+  data_dict = {"rough landscape (111)": loss_gradient_111, "flat landscape (441)": loss_gradient_441}
+  title = "QNN Loss Gradients (norm) \n (Schmidt Rank, size training set, data type)"
+  fig, ax = plt.subplots()
+  ax.boxplot(data_dict.values())
+  ax.set_xticklabels(data_dict.keys(), fontsize=14)
+  ax.set_title(title, fontsize=16)
+  file_name = "boxplot_loss_gradients_latin"
   plt.savefig(f"experiment_results/plots/Initial_QNN_tests/{file_name}.pdf", format='pdf',bbox_inches='tight')
 
 
-def scikit_tda_test():
+def scikit_tda_test(min=0, max=1):
   start = datetime.now()
   print("Start time", start.strftime('%Y-%m-%d %H:%M:%S'))
   s = 4
   ndp = 4
   dt = 1
-  nsp = 100
+  
   dim=6
   #landscape = generate_landscape(s_rank=s, num_data_points=ndp, data_type=dt, num_sample_points=nsp)
-  with open("resources/sample_points_100_6D_0_2pi.json") as f:
+  with open("resources/sample_points_1000_6D_0_2pi.json") as f:
     sample_points =  json.load(f)
-  landscape = generate_landscape_from_sample_points(sample_points=sample_points, s_rank=s, num_data_points=ndp, transform_loss=True)
+  nsp = len(sample_points)
+  landscape = generate_landscape_from_sample_points(sample_points=sample_points, s_rank=s, num_data_points=ndp, transform_loss=False, min=min, max=max)
   print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), "Generating loss landscape: DONE")
   diagrams = ripser(landscape, maxdim=2)['dgms']
   # Time
@@ -150,4 +170,6 @@ if __name__ == "__main__":
   # s2 = get_uniformly_random_samples(min = 0, max = 1, dim = 6, number_of_samples=1000)
   # print("Latin Discrepancy: ", qmc.discrepancy(s1))
   # print("Uniform Discrepancy: ", qmc.discrepancy(s2))
+
+
   scikit_tda_test()
