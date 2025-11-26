@@ -50,7 +50,7 @@
 ### Python ###
 # Python compiled files, virtual environments, and cache
 
-/__pycache__/*
+__pycache__/*
 *.py[cod]
 *.pyc
 *$py.class
@@ -186,4 +186,5 @@ profile_default/
 .spyproject
 
 site/
+
 
