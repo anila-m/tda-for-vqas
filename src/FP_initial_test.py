@@ -7,6 +7,10 @@ import os
 from matplotlib import pyplot as plt
 from utils.resources import unitary, inputs_list
 from qnn.qnn_cost_func import CostFunction
+from utils.sampling_utils import get_uniformly_random_samples, get_latin_hypercube_samples
+from scipy.stats import qmc
+import json
+from numpyencoder import NumpyEncoder
 
 #TODO: look at metrics of landscapes
 # metric values for config IDs 0 and 15 taken from Victors master thesis
@@ -76,18 +80,14 @@ def get_interval_transformation(a, b):
     Returns a function that transforms values x in [0,1] to values f(x) in [a,b]
   """
   def f(x):
-    return x*(b-1)+a
+    return x*(b-a)+a
   return f
 
 def boxplot_loss_values(transform_loss=False):
   dim = 6
   landscape_limit = 2*np.pi
   num_sample_points = 10000
-  lowerleft = np.zeros(dim)
-  upperright = np.ones(dim)*landscape_limit
-  rng = np.random.default_rng()
-  sample_points = rng.uniform(low = lowerleft, high = upperright, size = (num_sample_points, dim))
-
+  sample_points = get_latin_hypercube_samples(min=0, max=landscape_limit, dim=dim, number_of_samples=num_sample_points)
   
   # rough landscape: s rank 1, ndp 1
   loss_values_111 = []
@@ -98,7 +98,7 @@ def boxplot_loss_values(transform_loss=False):
   x_441 = np.asarray(inputs_list[15],dtype=complex)
   loss_func_441 = CostFunction(num_qubits=2, unitary=u_6D, inputs=x_441)
   
-  f = get_interval_transformation(0,2*landscape_limit)
+  f = get_interval_transformation(50,100)
   
   for i, point in enumerate(sample_points):
       loss_111 = loss_func_111(point)
@@ -109,8 +109,6 @@ def boxplot_loss_values(transform_loss=False):
       loss_values_111.append(loss_111)
       loss_values_441.append(loss_441)
   
-  print(loss_values_111)
-  
   # boxplot of loss values
   data_dict = {"rough landscape (111)": loss_values_111, "flat landscape (441)": loss_values_441}
   title = "QNN Loss Landscape values \n (Schmidt Rank, size training set, data type)"
@@ -118,20 +116,22 @@ def boxplot_loss_values(transform_loss=False):
   ax.boxplot(data_dict.values())
   ax.set_xticklabels(data_dict.keys(), fontsize=14)
   ax.set_title(title, fontsize=16)
-  file_name = "loss_values_transformed_2"
-  plt.savefig(f"plots/Second_QNN_tests/{file_name}.pdf", format='pdf',bbox_inches='tight')
-
+  file_name = "loss_values_transformed_50_100_latin"
+  plt.savefig(f"experiment_results/plots/Initial_QNN_tests/{file_name}.pdf", format='pdf',bbox_inches='tight')
 
 
 def scikit_tda_test():
   start = datetime.now()
   print("Start time", start.strftime('%Y-%m-%d %H:%M:%S'))
-  s = 1
-  ndp = 1
+  s = 4
+  ndp = 4
   dt = 1
   nsp = 100
   dim=6
-  landscape = generate_landscape(s_rank=s, num_data_points=ndp, data_type=dt, num_sample_points=nsp)
+  #landscape = generate_landscape(s_rank=s, num_data_points=ndp, data_type=dt, num_sample_points=nsp)
+  with open("resources/sample_points_100_6D_0_2pi.json") as f:
+    sample_points =  json.load(f)
+  landscape = generate_landscape_from_sample_points(sample_points=sample_points, s_rank=s, num_data_points=ndp, transform_loss=True)
   print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), "Generating loss landscape: DONE")
   diagrams = ripser(landscape, maxdim=2)['dgms']
   # Time
@@ -141,8 +141,13 @@ def scikit_tda_test():
   plot_diagrams(diagrams, show=True, title=title)
 
 
+
 if __name__ == "__main__":
-  scikit_tda_test()
+  #scikit_tda_test()
   #print(os.getcwd())
   #print(generate_landscape(s_rank=1,num_data_points=2,data_type=1,num_grid_points=5))
-  
+  # s1 = get_latin_hypercube_samples(min = 0, max = 1, dim = 6, number_of_samples=1000)
+  # s2 = get_uniformly_random_samples(min = 0, max = 1, dim = 6, number_of_samples=1000)
+  # print("Latin Discrepancy: ", qmc.discrepancy(s1))
+  # print("Uniform Discrepancy: ", qmc.discrepancy(s2))
+  scikit_tda_test()
