@@ -23,7 +23,7 @@ def get_uniformly_random_samples(min: float, max: float, dim: int, number_of_sam
     sample_points = rng.uniform(low = lowerleft, high = upperright, size = (number_of_samples, dim))
     return sample_points
 
-#TODO: implement latin hypercube sampling
+
 def get_latin_hypercube_samples(min, max, dim, number_of_samples=1000):
     """
     Uses Latin Hypercube Sampling to generate a list of sample points (with specified dimension) within a hypercube. 
