@@ -25,8 +25,8 @@ SC_avg_abs = {0: [0.004842119076112458, 0.0057642863343205, 0.007033948578070575
       15: [0.0015106698578506775, 0.0010675523778842504, 0.00131834851764826, 0.0011552698634541118, 0.0016972122978039436]}
 
 u_6D = np.asarray(unitary, dtype=complex)
-u_6D_2 = np.asarray(unitary_2, dtype=complex)
-u_6D_5 = np.asarray(unitary_5, dtype=complex)
+u_6D_2 = np.asarray(unitary_2, dtype=complex) # for config 241
+u_6D_5 = np.asarray(unitary_5, dtype=complex)# for config 79
 in_79 = np.asarray(inputs_79, dtype=complex)
 in_241 = np.asarray(inputs_241, dtype=complex)
 #6D QNN cost function: Schmidt Rank 1, num data points 
@@ -168,25 +168,32 @@ def scikit_tda_test(min=0, max=1):
   print(diagrams)
 
 def scikit_tda_test2(min=0, max=1):
+  """
+  TDA of QNN cost landscape.
+
+  :param min: lower bound of new interval (linear transformation of loss values), default: 0. 
+  :param max: upper bound of new interval (linear transformation of loss values), default: 1.
+  """
   start = datetime.now()
   print("Start time", start.strftime('%Y-%m-%d %H:%M:%S'))
-  # config 79 (victors numbering)
-  s = 1
-  ndp = 1
+  # config 79 (victors numbering) uses unitary_5, inputs_79 (inputs = training samples)
+  # config 241 would be: s= 1, ndp=1, dt=4, unitary_2, inputs_241
+  s = 4
+  ndp = 4
   dt = 1
   dim=6
   #landscape = generate_landscape(s_rank=s, num_data_points=ndp, data_type=dt, num_sample_points=nsp)
   with open("resources/sample_points_1000_6D_0_2pi.json") as f:
     sample_points =  json.load(f)
   nsp = len(sample_points)
-  landscape = generate_landscape_from_sample_points(sample_points=sample_points, s_rank=s, num_data_points=1, transform_loss=True, min=min, max=max)
+  landscape = generate_landscape_from_sample_points(sample_points=sample_points, unitary=unitary_5, inputs=in_79, transform_loss=True, min=min, max=max)
   print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), "Generating loss landscape: DONE")
   diagrams = ripser(landscape, maxdim=2)['dgms']
   # Time
   elapsed_time = datetime.now()-start
   print("elapsed time", elapsed_time)
   title=f"6D QNN loss landscape\n Schmidt-Rank = {s}, #Trainings samples = {ndp}, Data type = {dt}\n #Sample points = {nsp}"
-  plot_diagrams(diagrams, show=True, title=title, xy_range = [-0.5,10, -0.5, 10])
+  plot_diagrams(diagrams, show=True, title=title, xy_range = [-0.5,10, -0.5, 10]) # axis limits fit transformed loss values (to [50,100])
 
 
 
@@ -200,5 +207,4 @@ if __name__ == "__main__":
   # print("Latin Discrepancy: ", qmc.discrepancy(s1))
   # print("Uniform Discrepancy: ", qmc.discrepancy(s2))
 
-
-  scikit_tda_test2(min=50, max=100)
+  scikit_tda_test2(min=50, max=100) 
