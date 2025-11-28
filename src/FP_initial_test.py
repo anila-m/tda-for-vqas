@@ -5,7 +5,7 @@ from ripser import ripser
 from persim import plot_diagrams
 import os
 from matplotlib import pyplot as plt
-from utils.resources import unitary, inputs_list
+from utils.resources import unitary, inputs_list, unitary_2, unitary_5, inputs_79, inputs_241
 from qnn.qnn_cost_func import CostFunction
 from utils.sampling_utils import get_uniformly_random_samples, get_latin_hypercube_samples
 from scipy.stats import qmc
@@ -24,9 +24,11 @@ FD = {0: [25.954254, 28.435707, 31.539053, 18.779341, 25.873669],
 SC_avg_abs = {0: [0.004842119076112458, 0.0057642863343205, 0.007033948578070575, 0.003624772714807306, 0.008251599227975822],
       15: [0.0015106698578506775, 0.0010675523778842504, 0.00131834851764826, 0.0011552698634541118, 0.0016972122978039436]}
 
-
-
 u_6D = np.asarray(unitary, dtype=complex)
+u_6D_2 = np.asarray(unitary_2, dtype=complex)
+u_6D_5 = np.asarray(unitary_5, dtype=complex)
+in_79 = np.asarray(inputs_79, dtype=complex)
+in_241 = np.asarray(inputs_241, dtype=complex)
 #6D QNN cost function: Schmidt Rank 1, num data points 
 
 def get_conf_id(s_rank, num_data_points, data_type):
@@ -55,14 +57,18 @@ def generate_landscape(unitary=u_6D, s_rank=1, num_data_points=1, data_type=1, n
       landscape.append(data_point)
   return np.asarray(landscape, dtype=np.float32)
 
-def generate_landscape_from_sample_points(sample_points, unitary=u_6D, s_rank=1, num_data_points=1, data_type=1, random=True, transform_loss=False, min=0, max=1): #TODO: Signatur anpassen, damit sie zur andere Funktion passt
+def generate_landscape_from_sample_points(sample_points, unitary=u_6D, s_rank=1, num_data_points=1, data_type=1, inputs =None, random=True, transform_loss=False, min=0, max=1): #TODO: Signatur anpassen, damit sie zur andere Funktion passt
   num_qubits=2
   dim = 3*num_qubits
   config_id = get_conf_id(s_rank, num_data_points, data_type)
-  print(config_id)
-  print("Config ID", config_id, " ----- ", "Schmidt rank: ", s_rank, "  Number of data points: ", num_data_points, "  data type: ", data_type)
-  x = np.asarray(inputs_list[config_id],dtype=complex)
-  loss_func = CostFunction(num_qubits=num_qubits, unitary=u_6D, inputs=x)
+  #print(config_id)
+  #print("Config ID", config_id, " ----- ", "Schmidt rank: ", s_rank, "  Number of data points: ", num_data_points, "  data type: ", data_type)
+  if inputs is None:
+    x = np.asarray(inputs_list[config_id],dtype=complex)
+  else:
+    print("inputs")
+    x = inputs
+  loss_func = CostFunction(num_qubits=num_qubits, unitary=unitary, inputs=x)
   landscape = []
   landscape_limit = 2 * np.pi
   landscape = []
@@ -158,7 +164,30 @@ def scikit_tda_test(min=0, max=1):
   elapsed_time = datetime.now()-start
   print("elapsed time", elapsed_time)
   title=f"6D QNN loss landscape\n Schmidt-Rank = {s}, #Trainings samples = {ndp}, Data type = {dt}\n #Sample points = {nsp}"
-  plot_diagrams(diagrams, show=True, title=title)
+  a = plot_diagrams(diagrams, show=False, title=title)
+  print(diagrams)
+
+def scikit_tda_test2(min=0, max=1):
+  start = datetime.now()
+  print("Start time", start.strftime('%Y-%m-%d %H:%M:%S'))
+  # config 79 (victors numbering)
+  s = 1
+  ndp = 1
+  dt = 1
+  dim=6
+  #landscape = generate_landscape(s_rank=s, num_data_points=ndp, data_type=dt, num_sample_points=nsp)
+  with open("resources/sample_points_1000_6D_0_2pi.json") as f:
+    sample_points =  json.load(f)
+  nsp = len(sample_points)
+  landscape = generate_landscape_from_sample_points(sample_points=sample_points, s_rank=s, num_data_points=1, transform_loss=True, min=min, max=max)
+  print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), "Generating loss landscape: DONE")
+  diagrams = ripser(landscape, maxdim=2)['dgms']
+  # Time
+  elapsed_time = datetime.now()-start
+  print("elapsed time", elapsed_time)
+  title=f"6D QNN loss landscape\n Schmidt-Rank = {s}, #Trainings samples = {ndp}, Data type = {dt}\n #Sample points = {nsp}"
+  plot_diagrams(diagrams, show=True, title=title, xy_range = [-0.5,10, -0.5, 10])
+
 
 
 
@@ -172,4 +201,4 @@ if __name__ == "__main__":
   # print("Uniform Discrepancy: ", qmc.discrepancy(s2))
 
 
-  scikit_tda_test()
+  scikit_tda_test2(min=50, max=100)
