@@ -19,8 +19,8 @@ The xyz library was used to compute persistence diagrams and landscapes.
 
 ## Dependencies
 
-The experiments were run using Python 3.13.9
-All required packages are detailed in `requirements.txt`. Install them by running the following command: ``pip install -r requirements.txt``.
+The experiments were run using Python 3.10.11
+All required packages are detailed in `requirements_3.10.11.txt`. Install them by running the following command: ``pip install -r requirements_3.10.11.txt``.
 
 ## Disclaimer of Warranty
 

@@ -1,0 +1,59 @@
+{
+  "terms": [
+    {
+      "pauli_ops": [
+        {
+          "qubit": 1,
+          "op": "Z"
+        },
+        {
+          "qubit": 0,
+          "op": "Z"
+        }
+      ],
+      "coefficient": {
+        "real": -5.0,
+        "imag": 0.0
+      }
+    },
+    {
+      "pauli_ops": [
+        {
+          "qubit": 2,
+          "op": "Z"
+        },
+        {
+          "qubit": 0,
+          "op": "Z"
+        }
+      ],
+      "coefficient": {
+        "real": -1.0,
+        "imag": 0.0
+      }
+    },
+    {
+      "pauli_ops": [
+        {
+          "qubit": 1,
+          "op": "Z"
+        },
+        {
+          "qubit": 2,
+          "op": "Z"
+        }
+      ],
+      "coefficient": {
+        "real": -1.0,
+        "imag": 0.0
+      }
+    },
+    {
+      "pauli_ops": [],
+      "coefficient": {
+        "real": -0.0,
+        "imag": 0.0
+      }
+    }
+  ]
+}
