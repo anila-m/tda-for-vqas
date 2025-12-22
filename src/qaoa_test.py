@@ -80,7 +80,16 @@ def main():
     Computes homologies up to dimension 2 (H_0, H_1, H_2).
     """
     # load loss landscape
-    output = ""
+    timestamp = generate_timestamp_str()
+    # create directory
+    dir = os.path.join(os.path.join(os.path.join(os.path.join(os.getcwd(), f"experiment_results"),f"Initial_QAOA_tests"),"H2"),f"persistence_{timestamp}")
+    if not os.path.exists(dir):
+        os.mkdir(dir)
+    # create txt file (overview over runtimes)
+    dir2 = os.path.join(dir, f"persistence_runtimes_{timestamp}.txt")
+    with open(dir2, "w") as text_file:
+        text_file.write("Persistence runtimes (H2, ripser package) for 3qubit QAOA \nN = Number of sample points, Sampling method: Latin Hypercube Sampling")
+    # compute persistence diagrams
     for N in [5000, 10000, 15000]:    
         for p in range(1,4): 
             start = datetime.now()
@@ -89,21 +98,36 @@ def main():
             sample_file_label = f"LHS_{N}"
             landscape_file_name = f"landscape_{ham_file_label}_{sample_file_label}_p_{p}.json"
             landscape_dir = os.path.join(
-                os.path.join(os.getcwd(), os.path.join("resources\QAOA_H2_test\landscapes", landscape_file_name))
+                os.path.join(os.getcwd(), os.path.join("resources/QAOA_H2_test/landscapes", landscape_file_name))
             )
             with open(landscape_dir) as f:
                 landscape_dict =  json.load(f)
             landscape = np.asarray(landscape_dict["landscape"])
+            
 
             # analyze landscape (TDA)
             ripser_result = ripser(landscape, maxdim=2) # todo: change maxdim to 2
             # save tda result
-            save_persistence_diagrams(ripser_result, ham_file_label, sample_file_label, timestamp=generate_timestamp_str(), p=p, id="")
+            save_persistence_diagrams(ripser_result,N, ham_file_label, sample_file_label, timestamp=timestamp, p=p, id="")
 
+            # create persistence diagram (plot) and save it
+            diagrams = ripser_result["dgms"]
+            plot_diagrams(diagrams, show=False) # axis limits fit transformed loss values (to [50,100])
+            dir2 = os.path.join(dir, "plots")
+            if not os.path.exists(dir2):
+                os.mkdir(dir2)
+            file_name = f"persistence_N_{N}_p_{p}.png"
+            plt.savefig(os.path.join(dir2, file_name))
+            plt.close()
+
+            # save runtime to txt file
             elapse_time = datetime.now() - start
             output_line = f"N={N}, p={p}, time(H2): {elapse_time}"
             print(output_line)
-            output = output + "\n" + output_line
+            dir2 = os.path.join(dir, f"persistence_runtimes_{timestamp}.txt")
+            with open(dir2, "a") as text_file:
+                text_file.write("\n" + output_line)
+
 
 
 

@@ -26,25 +26,20 @@ def save_landscape(landscape, ham_file_label, sample_points_file_label, timestam
         "landscape": landscape.tolist()
     }
     with open(os.path.join(directory_name, file_name), "w") as f:
-        json.dump(dict, f)
+        json.dump(dict, f, indent=4)
 
-def save_persistence_diagrams(ripser_result, ham_file_label, sample_points_file_label, timestamp, p, id):
-    directory_name = os.path.join(
-        os.path.join(os.getcwd(), f"experiment_results\Initial_QAOA_tests\H2\persistence_{timestamp}")
-    )
-    # check if directory exists and create it if not
-
-    if not os.path.exists(os.path.join(os.getcwd(), "results")):
-        os.mkdir(os.path.join(os.getcwd(), "results"))
-    if not os.path.exists(directory_name):
-        os.mkdir(directory_name)
-    file_name = f"persistence_{ham_file_label}_p_{p}.json"
+def save_persistence_diagrams(ripser_result, N, ham_file_label, sample_points_file_label, timestamp, p, id=""):
+    dir = os.path.join(os.path.join(os.path.join(os.path.join(os.getcwd(), f"experiment_results"),f"Initial_QAOA_tests"),"H2"),f"persistence_{timestamp}")
+    if not os.path.exists(dir):
+        os.mkdir(dir)
+    file_name = f"persistence_N_{N}_p_{p}.json"
     
     dict = {
         "config id": id,
         "hamiltonian": ham_file_label,
         "sample_points": sample_points_file_label,
         "timestamp": timestamp,
+        "number_sample_points": N,
         "P": p,
         "persistence diagram": {}
     }
@@ -62,5 +57,5 @@ def save_persistence_diagrams(ripser_result, ham_file_label, sample_points_file_
         ripser_dict["idx_perm"] = ripser_result["idx_perm"].tolist()
 
     dict["persistence diagram"] = ripser_dict
-    with open(os.path.join(directory_name, file_name), "w") as f:
-        json.dump(dict, f)
+    with open(os.path.join(dir, file_name), "w") as f:
+        json.dump(dict, f, indent=4)

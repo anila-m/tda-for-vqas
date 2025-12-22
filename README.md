@@ -21,6 +21,7 @@ The xyz library was used to compute persistence diagrams and landscapes.
 
 The experiments were run using Python 3.10.11
 All required packages are detailed in `requirements_3.10.11.txt`. Install them by running the following command: ``pip install -r requirements_3.10.11.txt``.
+The orqviz package has to be upgraded manually: ``pip install --upgrade --no-cache-dir --use-deprecated=legacy-resolver orqviz``.
 
 ## Disclaimer of Warranty
 
