@@ -124,8 +124,8 @@ def prepare_cost_function(
     ) -> float:
         # get number of layers (p) and parameters
         p = len(pars) // 2
-        beta = pars[0:p]
-        gamma = pars[p:]
+        gamma = pars[0:p]
+        beta = pars[p:]
 
         circuit = Circuit()
         # Prepare initial state
@@ -133,8 +133,8 @@ def prepare_cost_function(
 
         # Add time evolution layers
         for i in range(p):
-            circuit += time_evolution_cost(cost_op, beta[i])
-            circuit += time_evolution_mixer(mixer_op, gamma[i])
+            circuit += time_evolution_cost(cost_op, gamma[i])
+            circuit += time_evolution_mixer(mixer_op, beta[i])
         #return backend.get_exact_expectation_values(circuit, operator).values.sum()
         value = backend.get_exact_expectation_values(circuit, operator) #passt das?
         return value

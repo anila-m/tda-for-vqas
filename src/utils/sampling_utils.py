@@ -24,7 +24,7 @@ def get_uniformly_random_samples(min: float, max: float, dim: int, number_of_sam
     return sample_points
 
 
-def get_latin_hypercube_samples(min, max, dim, number_of_samples=10000):
+def get_latin_hypercube_samples(lowerleft, upperright, dim, number_of_samples=10000):
     """
     Uses Latin Hypercube Sampling to generate a list of sample points (with specified dimension) within a hypercube. 
     The left corner of the hypercube is [min, ..., min] and upper right corner is [max, ..., max].
@@ -39,8 +39,8 @@ def get_latin_hypercube_samples(min, max, dim, number_of_samples=10000):
     """
     sampler = qmc.LatinHypercube(d=dim)
     sample_points = sampler.random(n=number_of_samples)
-    lowerleft = np.ones(dim)*min
-    upperright = np.ones(dim)*max
+    #lowerleft = np.ones(dim)*min
+    #upperright = np.ones(dim)*max
     sample_points = qmc.scale(sample_points,l_bounds=lowerleft, u_bounds=upperright)
     return sample_points
 
