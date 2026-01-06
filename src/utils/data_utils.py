@@ -11,6 +11,14 @@ tolerance = 1E-10
 
 # Encodings
 
+def get_interval_transformation(a, b, min=0, max=1):
+    """
+        Returns a function that transforms values x in [min,max] to values f(x) in [a,b]
+    """
+    def f(x):
+        return (x-min)*(b-a)/(max-min)+a
+    return f
+
 def int_to_bin(num, num_bits):
     """
     Convert integer to binary with padding
