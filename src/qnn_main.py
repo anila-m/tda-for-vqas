@@ -22,6 +22,7 @@ def main_experiment(transformed_min = 50, transformed_max = 100):
   #landscape_directory = os.path.join(os.path.join(os.path.join(os.path.join(os.getcwd(), "resources"), "QNN"), "landscapes"), "not_transformed")
   
   #all_landscapes = os.listdir(landscape_directory)
+  RESULTS_BASE_DIR.mkdir(exist_ok=True)
   all_landscapes = LANDSCAPE_DIR.iterdir()
   i=0
   for file in all_landscapes:
@@ -54,6 +55,7 @@ def main_experiment(transformed_min = 50, transformed_max = 100):
 
       qnn_dict["persistence diagram"] = ripser_dict
       NOT_TRANSFORMED_DIR = RESULTS_BASE_DIR / "not_transformed"
+      NOT_TRANSFORMED_DIR.mkdir(exist_ok=True)
       #save_path = os.path.join(os.path.join(os.path.join(os.getcwd(), "experiment_results"), "QNN"), "not_transformed")
       
       # save ripser result, including landscape, etc.
@@ -61,12 +63,14 @@ def main_experiment(transformed_min = 50, transformed_max = 100):
       file_name_plot = f"persistence_diagram_qnn_{id}_not_transformed_H{dim}.png"
       ripser_path = NOT_TRANSFORMED_DIR / "ripser_results" 
       ripser_path.mkdir(exist_ok=True)
+      plot_path = NOT_TRANSFORMED_DIR / "persistence_diagrams"
+      plot_path.mkdir(exist_ok=True)
       ripser_file = ripser_path / file_name
       ripser_file.write_text(json.dumps(qnn_dict, indent=4))
 
       # generate and save persistence diagram
       plot_diagrams(ripser_result["dgms"], show=False)
-      plt.savefig(NOT_TRANSFORMED_DIR / "persistence_diagrams" / file_name_plot)
+      plt.savefig(plot_path / file_name_plot)
       plt.close()
       now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
       print(f"[DONE] {now}: {file_name}")
@@ -98,6 +102,7 @@ def main_experiment(transformed_min = 50, transformed_max = 100):
       qnn_dict["transformed_max"] = transformed_max
 
       TRANSFORMED_DIR = RESULTS_BASE_DIR / f"transformed_{transformed_min}_{transformed_max}"
+      TRANSFORMED_DIR.mkdir(exist_ok=True)
       #save_path = os.path.join(os.path.join(os.path.join(os.getcwd(), "experiment_results"), "QNN"), f"transformed_{transformed_min}_{transformed_max}")
       file_name = f"persistence_qnn_{id}_transformed_{transformed_min}_{transformed_max}_H{dim}.json"
       file_name_plot = f"persistence_diagram_qnn_{id}_transformed_{transformed_min}_{transformed_max}_H{dim}.png"
@@ -105,12 +110,14 @@ def main_experiment(transformed_min = 50, transformed_max = 100):
       # save ripser result, including landscape, etc.
       ripser_path = TRANSFORMED_DIR / "ripser_results" 
       ripser_path.mkdir(exist_ok=True)
+      plot_path = TRANSFORMED_DIR / "persistence_diagrams"
+      plot_path.mkdir(exist_ok=True)
       ripser_file = ripser_path / file_name
       ripser_file.write_text(json.dumps(qnn_dict, indent=4))
 
       # generate and save persistence diagram
       plot_diagrams(ripser_result["dgms"], show=False)
-      plt.savefig(TRANSFORMED_DIR / "persistence_diagrams" / file_name_plot)
+      plt.savefig(plot_path / file_name_plot)
       plt.close()
       now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
       print(f"[DONE] {now}: {file_name}")
