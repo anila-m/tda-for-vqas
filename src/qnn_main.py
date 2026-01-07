@@ -11,6 +11,7 @@ from utils.file_utils import save_persistence_diagrams
 from utils.data_utils import transform_loss_landscape
 
 dim = 1 # homology dimension
+total_number_landscapes = 1000
 
 # Directories
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -73,7 +74,8 @@ def main_experiment(transformed_min = 50, transformed_max = 100):
       plt.savefig(plot_path / file_name_plot)
       plt.close()
       now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-      print(f"[DONE] {now}: {file_name}")
+      i += 1
+      print(f"[DONE] {i}/{total_number_landscapes} at {now}: {file_name}")
       #########################################################
       # compute persistence diagram for transformed landscape
       transformed_landscape = transform_loss_landscape(landscape, transformed_min, transformed_max)
@@ -120,7 +122,8 @@ def main_experiment(transformed_min = 50, transformed_max = 100):
       plt.savefig(plot_path / file_name_plot)
       plt.close()
       now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-      print(f"[DONE] {now}: {file_name}")
+      i += 1
+      print(f"[DONE] {i}/{total_number_landscapes} at {now}: {file_name}")
       
       
 
