@@ -3,6 +3,23 @@ import json
 import numpy as np
 from orquestra.quantum.operators import convert_op_to_dict
 
+def save_qnn_landscape(landscape, meta_data, directory, file_name):
+    # check if directory exists and create it if not
+    if not os.path.exists(directory):
+        os.mkdir(directory)
+
+    min = float(np.min(landscape[:, -1]))
+    max = float(np.max(landscape[:, -1]))
+    dict = meta_data.copy()
+
+    dict.update({
+        "min cost": min,
+        "max cost": max,
+        "landscape": landscape.tolist()
+    })
+    with open(os.path.join(directory, file_name), "w") as f:
+        json.dump(dict, f, indent=4)
+
 def save_landscape(landscape, meta_data, directory, file_name, id):
     # check if directory exists and create it if not
     if not os.path.exists(directory):
@@ -21,6 +38,8 @@ def save_landscape(landscape, meta_data, directory, file_name, id):
     })
     with open(os.path.join(directory, file_name), "w") as f:
         json.dump(dict, f, indent=4)
+
+
 
 def save_persistence_diagrams(ripser_result, N, ham_file_label, sample_points_file_label, timestamp, p, id=""):
     dir = os.path.join(os.path.join(os.path.join(os.path.join(os.getcwd(), f"experiment_results"),f"Initial_QAOA_tests"),"H2"),f"persistence_{timestamp}")

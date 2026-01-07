@@ -11,6 +11,14 @@ tolerance = 1E-10
 
 # Encodings
 
+def transform_loss_landscape(landscape, transform_min, transform_max, min=0, max=1):
+    f = get_interval_transformation(a=transform_min,b=transform_max, min=min, max=max)
+    sample_points = landscape[:, :-1]
+    loss = landscape[:,-1]
+    transformed_loss = np.array([f(l) for l in loss])
+    transformed_landscape = np.column_stack((sample_points, transformed_loss))
+    return transformed_landscape
+
 def get_interval_transformation(a, b, min=0, max=1):
     """
         Returns a function that transforms values x in [min,max] to values f(x) in [a,b]
