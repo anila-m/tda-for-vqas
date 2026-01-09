@@ -18,15 +18,24 @@ from orqviz.scans import Scan2DResult
 
 from qaoa._metrics import roughness_tv, roughness_fourier_sparsity_using_norms
 from qaoa.utils import generate_timestamp_str
+from utils.data_utils import get_interval_transformation
 
 tau = np.pi * 2
 
-def generate_landscape(cost_func, sample_points):
-    landscape = []
+def generate_landscape(cost_func, sample_points, transform=False):
+    costs = []
     for _, s in enumerate(sample_points):
         cost = cost_func(s)
-        data_point = np.append(s, cost)
-        landscape.append(data_point)
+        costs.append(cost)
+    # transform cost values
+    if transform:
+        a=50
+        b=100
+        min = np.min(costs)
+        max = np.max(costs)
+        transformation_func = get_interval_transformation(a,b,min=min,max=max)
+        costs = [transformation_func(c) for c in costs]
+    landscape = np.column_stack((sample_points, costs))
     return np.asarray(landscape)
 
 
@@ -283,12 +292,10 @@ def save_hamiltonians(
     if timestamp_str is None:
         timestamp_str = generate_timestamp_str()
     directory_name = os.path.join(
-        os.path.join(os.getcwd(), f"results/hamiltonians_{timestamp_str}")
+        os.path.join(os.getcwd(), f"experiment_results/QAOA/hamiltonians_{timestamp_str}")
     )
     # check if directory exists and create it if not
 
-    if not os.path.exists(os.path.join(os.getcwd(), "results")):
-        os.mkdir(os.path.join(os.getcwd(), "results"))
     if not os.path.exists(directory_name):
         os.mkdir(directory_name)
     for label, hamiltonian in hamiltonians_dict.items():

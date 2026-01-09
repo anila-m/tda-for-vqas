@@ -4,6 +4,7 @@ import os
 import sys
 from typing import Dict
 from datetime import datetime
+from pathlib import Path
 
 SCRIPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..")
 sys.path.append(os.path.dirname(SCRIPT_DIR))
@@ -14,10 +15,10 @@ from orquestra.integrations.qulacs.simulator import QulacsSimulator
 from orquestra.opt.problems.maxcut import MaxCut
 from orquestra.quantum.operators import PauliSum, PauliTerm
 
-from src.qaoa.data_generation import generate_data, prepare_cost_function, save_hamiltonians, perform_2D_scan, get_grid_samples
-from src.qaoa.hamiltonian_generation import assign_random_weights, assign_weight_for_term
-from src.qaoa.plots import create_plot, create_tda_plot
-from src.utils import calculate_plot_extents, generate_timestamp_str
+from qaoa.data_generation import generate_data, prepare_cost_function, save_hamiltonians, perform_2D_scan, generate_landscape
+from qaoa.hamiltonian_generation import assign_random_weights, assign_weight_for_term
+from qaoa.plots import create_plot, create_tda_plot
+from qaoa.utils import generate_timestamp_str
 
 import orqviz
 from orqviz.scans import Scan2DResult
@@ -25,200 +26,71 @@ from typing import Any, Dict, List, Optional, Tuple
 from ripser import ripser
 from persim import plot_diagrams
 from matplotlib import pyplot as plt
+from utils.file_utils import save_landscape
 
 
 backend = QulacsSimulator()
-scan_resolution = 101 # 31^2 approx 1000, was 101, but too much for persistene
-num_runs=1
+scan_resolution = 101 # 31^2 approx 1000, 101 is too much for persistence
+num_runs=5
+N=10000 #number of sample points
+total_number_landscapes = 450
+dim = 1 # homology dimension
 
+# Directories
+BASE_DIR = Path(__file__).resolve().parent.parent
+RESULTS_BASE_DIR = BASE_DIR / "experiment_results" / "QAOA"
+LANDSCAPE_DIR = BASE_DIR / "resources" / "QAOA" / "landscapes"
 
-def main():
-    cost_period = [np.pi, np.pi]
-    fourier_period = [2 * np.pi, 2 * np.pi]
-    timestamp = generate_timestamp_str()
-
-    # generate and save grid sample points to use later
-    for p in range(1,4):
-        # create correct directory if it doesn't exist
-        n=2*p
-        directory_name = os.path.join(
-            os.path.join(os.getcwd(), f"resources\sample_points_{n}D")
-        )
-        if not os.path.exists(directory_name):
-            os.mkdir(directory_name)
-
-        # generate sample points
-        min = np.ones(2*p)*(-0.5*np.pi)
-        max = np.ones(2*p)*(0.5*np.pi)
-        sample_points = get_grid_samples(min, max, dim=2*p, number_of_samples=10000)
-        N = len(sample_points)
-        
-        # save sample points as json
-        file_name = f"samples_grid_10000_-0.5pi_0.5pi.json" 
-        #10 000 is not the actual number of sample points generated, see get_grid_samples, what actual number of sample points ist
-        with open(os.path.join(directory_name, file_name), "w") as f:
-            json.dump(sample_points.tolist(), f)
-
-    # generate and save hamiltonians
-    hamiltonians_dict: Dict[str, PauliSum] = {}
-    for num_qubits in [3, 8, 12, 15]:
-        for run in range(num_runs):
-            G_complete_graph = nx.complete_graph(num_qubits)
-            weighted_MaxCut_hamil = MaxCut().get_hamiltonian(G_complete_graph)
-            weighted_MaxCut_hamil = assign_weight_for_term(
-                weighted_MaxCut_hamil, PauliTerm("I0"), 0
-            )
-
-            hamiltonians_dict[
-                f"ham_MAXCUT_weighted_-10_to_10_qubits_{num_qubits}_run_{run}"
-            ] = assign_random_weights(weighted_MaxCut_hamil)
-
-    save_hamiltonians(hamiltonians_dict, timestamp_str=timestamp)
-
-    for file_label, hamiltonian in hamiltonians_dict.items():
-        print(file_label)
-        for p in range(1,4):
-            print(f"Dimension: {2*p}")
-            # save 
-            start = datetime.now()
-            cost_function = prepare_cost_function(hamiltonian, backend)
-
-            # load correct sample points
-            n=2*p
-            s = "samples_grid_10000_-0.5pi_0.5pi"
-            directory_name = os.path.join(
-                os.path.join(os.getcwd(), f"resources\sample_points_{n}D\{s}.json")
-            )
-            with open(directory_name) as f:
-                sample_points =  np.asarray(json.load(f))
-        
-            # generate loss landscape
-            landscape = generate_landscape(cost_function, sample_points)
-            #print(len(landscape))
-            elapsed_time = datetime.now()-start
-            print(f"Loss Landscape:", elapsed_time)
-
-            # save landscape
-            save_landscape(landscape, ham_file_label=file_label, sample_points_file_label=s, timestamp=timestamp, p=p)
-
-            # TDA: compute persistence diagram and save it, generate persistence diagram plot
-            start = datetime.now()
-            diagrams = ripser(landscape, maxdim=1)['dgms']
-            print(diagrams)
-            elapsed_time = datetime.now()-start
-            print(f"Persistence Diagram:", elapsed_time)
-            save_persistence_diagrams(diagrams, ham_file_label=file_label, sample_points_file_label=s, timestamp=timestamp, p=p)
-            plot_diagrams(diagrams, show=False) # axis limits fit transformed loss values (to [50,100])
-            dir = os.path.join(
-                os.path.join(os.getcwd(), f"results\persistence_{timestamp}\plots")
-            )
-            if not os.path.exists(directory_name):
-                os.mkdir(dir)
-            plt.savefig(f"results\persistence_{timestamp}\plots\persistence_{file_label}_p_{p}.png")
-
-            # period, fourier_res_x, fourier_res_y = calculate_plot_extents(hamiltonian)
-            # scan2D_result, fourier_result, metrics_dict = generate_data(
-            #     cost_function,
-            #     origin=origin,
-            #     dir_x=dir_x,
-            #     dir_y=dir_y,
-            #     file_label=file_label,
-            #     scan_resolution=scan_resolution,
-            #     cost_period=cost_period,
-            #     fourier_period=fourier_period,
-            #     timestamp_str=timestamp,
-            # )
-            # scan2D_result = generate_2D_scan(cost_function, origin, dir_x, dir_y, file_label, scan_resolution, cost_period)
-            # print("[INFO] generate 2D scans done")
+def main_experiment():
+    RESULTS_BASE_DIR.mkdir(exist_ok=True)
+    all_landscapes = LANDSCAPE_DIR.iterdir()
+    i=0
+    for file in all_landscapes:
+        with open(file) as f:
+            qaoa_dict =  json.load(f)
+            id = qaoa_dict["config id"]
+            landscape = np.asarray(qaoa_dict["landscape"])
             
-            # cost_landscape = np.vstack(np.dstack((scan2D_result.params_grid, scan2D_result.values)))
-            # diagrams = ripser(scan2D_result.values, maxdim=2)['dgms']
-            # #title=f"QAOA {filelabel}"
-            # plot_diagrams(diagrams, show=False) # axis limits fit transformed loss values (to [50,100])
-            # plt.savefig(f"results/other/onlyCostValues_{file_label}.png")
-            # print(file_label, "Min/Max Cost: ", np.min(scan2D_result.values), np.max(scan2D_result.values))
-            # create_tda_plot(
-            #     scan2D_result,
-            #     label=file_label,
-            #     fourier_res_x=fourier_res_x,
-            #     fourier_res_y=fourier_res_y,
-            #     timestamp_str=timestamp,
-            #     unit="pi",
-            #     remove_constant=True,
-            #     include_all_metrics=False,
-            # )
+            ######################################
+            # compute persistence diagram for landscape
+            start = datetime.now()
+            ripser_result = ripser(landscape, maxdim=dim)
+            elapsed_time = datetime.now()-start
+            qaoa_dict["runtime"] = str(elapsed_time).split(".",1)[0]
 
+            # prep and save ripser result 
+            d = [v.tolist() for v in ripser_result["dgms"]]
+            c = [[v.tolist() for v in l] for l in ripser_result["cocycles"]]
+            ripser_dict = {
+                "dgms" : d,
+                "cocycles": c,
+                "num_edges": ripser_result["num_edges"],
+                #"distance_matrix": ripser_result["dperm2all"].tolist(), #too large to save
+                "r_cover": ripser_result["r_cover"]
+            }
+            if ripser_result["idx_perm"] is not None:
+                ripser_dict["idx_perm"] = ripser_result["idx_perm"].tolist()
 
-def save_landscape(landscape, ham_file_label, sample_points_file_label, timestamp, p):
-    directory_name = os.path.join(
-        os.path.join(os.getcwd(), f"results\landscapes_{timestamp}")
-    )
-    # check if directory exists and create it if not
+            qaoa_dict["persistence diagram"] = ripser_dict
 
-    if not os.path.exists(os.path.join(os.getcwd(), "results")):
-        os.mkdir(os.path.join(os.getcwd(), "results"))
-    if not os.path.exists(directory_name):
-        os.mkdir(directory_name)
-    file_name = f"landscape_{ham_file_label}_p_{p}.json"
-    dict = {
-        "hamiltonian": ham_file_label,
-        "sample_points": sample_points_file_label,
-        "timestamp": timestamp,
-        "P": p,
-        "landscape": landscape.tolist()
-    }
-    with open(os.path.join(directory_name, file_name), "w") as f:
-        json.dump(dict, f)
+            # save ripser result, including landscape, etc.
+            file_name = f"persistence_qaoa_{id}_not_transformed_H{dim}.json"
+            file_name_plot = f"persistence_diagram_qaoa_{id}_not_transformed_H{dim}.png"
+            ripser_path = RESULTS_BASE_DIR / "ripser_results" 
+            ripser_path.mkdir(exist_ok=True)
+            plot_path = RESULTS_BASE_DIR / "persistence_diagrams"
+            plot_path.mkdir(exist_ok=True)
+            ripser_file = ripser_path / file_name
+            ripser_file.write_text(json.dumps(qaoa_dict, indent=4))
 
-def save_persistence_diagrams(diagrams, ham_file_label, sample_points_file_label, timestamp, p):
-    directory_name = os.path.join(
-        os.path.join(os.getcwd(), f"results\persistence_{timestamp}")
-    )
-    # check if directory exists and create it if not
+            # generate and save persistence diagram
+            plot_diagrams(ripser_result["dgms"], show=False)
+            plt.savefig(plot_path / file_name_plot)
+            plt.close()
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            i += 1
+            print(f"[DONE] {i}/{total_number_landscapes} at {now}: {file_name}")
 
-    if not os.path.exists(os.path.join(os.getcwd(), "results")):
-        os.mkdir(os.path.join(os.getcwd(), "results"))
-    if not os.path.exists(directory_name):
-        os.mkdir(directory_name)
-    file_name = f"persistence_{ham_file_label}_p_{p}.json"
-    d = {k:v.tolist() for k,v in diagrams.items()}
-    dict = {
-        "hamiltonian": ham_file_label,
-        "sample_points": sample_points_file_label,
-        "timestamp": timestamp,
-        "P": p,
-        "persistence diagram": d
-    }
-    with open(os.path.join(directory_name, file_name), "w") as f:
-        json.dump(dict, f)
-
-def generate_landscape(cost_func, sample_points):
-    landscape = []
-    for _, s in enumerate(sample_points):
-        cost = cost_func(s)
-        data_point = np.append(s, cost)
-        landscape.append(data_point)
-    return np.asarray(landscape)
-
-def generate_2D_scan(
-        cost_function: orqviz.aliases.LossFunction,
-        origin: orqviz.aliases.ParameterVector,
-        dir_x: orqviz.aliases.DirectionVector,
-        dir_y: orqviz.aliases.DirectionVector,
-        file_label: str,  # perhaps a string representing the operator
-        scan_resolution: int,
-        cost_period: List[float],
-        end_points: Tuple[float, float] = (-np.pi, np.pi),
-        ) -> Scan2DResult:
-    dir_x = dir_x / np.linalg.norm(dir_x)
-    dir_y = dir_y / np.linalg.norm(dir_y)
-
-    scan2D_result = perform_2D_scan(
-        cost_function, origin, scan_resolution, dir_x, dir_y, cost_period, end_points
-    )
-    #print(scan2D_result.params_grid)
-    #print(scan2D_result.values)
-    return scan2D_result
 
 if __name__ == "__main__":
-    main()
+    main_experiment()

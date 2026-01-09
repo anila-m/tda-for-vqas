@@ -6,6 +6,7 @@ import os
 import sys
 from typing import Dict
 from datetime import datetime
+from pathlib import Path
 
 SCRIPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..")
 sys.path.append(os.path.dirname(SCRIPT_DIR))
@@ -36,6 +37,10 @@ backend = QulacsSimulator()
 scan_resolution = 101 # 31^2 approx 1000, was 101, but too much for persistene
 num_runs=5
 N = 10000
+
+# Directories
+BASE_DIR = Path(__file__).resolve().parent.parent
+LANDSCAPE_DIR = BASE_DIR / "resources" / "QAOA" / "landscapes"
 
 
 def generate_LHS_sample_points_for_qaoa(number_of_samples=10000, min_gamma=-np.pi, max_gamma=np.pi, min_beta=-np.pi/2, max_beta=np.pi/2):
@@ -149,7 +154,7 @@ def generate_qaoa_landscape(ham_config_dict, ham_file_label, p, set):
     n=2*p
     num_qubits = ham_config_dict[ham_file_label]["num_qubits"]
     run = ham_config_dict[ham_file_label]["run"]
-    id = (p-1)*150+set*25+(num_qubits//3-1)*5+run # compute config id for later
+    id = (p-1)*150+set*25+(num_qubits//3-1)*5+run # compute config id for later # should be set*30!! 
     print(p, num_qubits, run, id)
     # get hamiltonian
     hamiltonian = ham_config_dict[ham_file_label]["hamiltonian"]
@@ -175,7 +180,26 @@ def generate_qaoa_landscape(ham_config_dict, ham_file_label, p, set):
     #print(f"Loss Landscape:", elapsed_time.strftime("%H:%M:%S"))
     return id, run, s, elapsed_time, landscape, ham_file_label
 
+def fix_qaoa_id_numbering():
+    TMP_LANDSCAPE_DIR = LANDSCAPE_DIR / "wrong_id"
+    all_landscapes = TMP_LANDSCAPE_DIR.iterdir()
+    timestamp = "2026_01_03_17_02_45"
+    for file in all_landscapes:
+        with open(file) as f:
+            qaoa_dict =  json.load(f)
+            p = qaoa_dict["p"]
+            set = qaoa_dict["sample_set"]
+            num_qubits = qaoa_dict["num_qubits"]
+            run = qaoa_dict["run"]
+            id = (p-1)*(5*6*5)+set*(6*5)+(num_qubits//3-1)*5+run
+            qaoa_dict["config id"] = id
+            filename = f"landscape_qaoa_{id}_qubits_{num_qubits}_run_{run}_p_{p}_set_{set}_{timestamp}"
+            file_path = LANDSCAPE_DIR / filename
+            file_path.write_text(json.dumps(qaoa_dict, indent=4))
+            print(f"[DONE] {filename}")
+
+
 
 if __name__ == "__main__":
     #generate_LHS_sample_points_for_qaoa() #done
-    main()
+    fix_qaoa_id_numbering()
