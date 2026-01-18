@@ -1,33 +1,14 @@
 import json
-import math
-import os
-import sys
-from typing import Dict
 from datetime import datetime
 from pathlib import Path
-
-SCRIPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..")
-sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 import networkx as nx
 import numpy as np
 from orquestra.integrations.qulacs.simulator import QulacsSimulator
-from orquestra.opt.problems.maxcut import MaxCut
-from orquestra.quantum.operators import PauliSum, PauliTerm
 
-from qaoa.data_generation import generate_data, prepare_cost_function, save_hamiltonians, perform_2D_scan, generate_landscape
-from qaoa.hamiltonian_generation import assign_random_weights, assign_weight_for_term
-from qaoa.plots import create_plot, create_tda_plot
-from qaoa.utils import generate_timestamp_str
-
-import orqviz
-from orqviz.scans import Scan2DResult
-from typing import Any, Dict, List, Optional, Tuple
 from ripser import ripser
 from persim import plot_diagrams
 from matplotlib import pyplot as plt
-from utils.file_utils import save_landscape
-
 
 backend = QulacsSimulator()
 scan_resolution = 101 # 31^2 approx 1000, 101 is too much for persistence
