@@ -187,4 +187,5 @@ profile_default/
 
 site/
 
-
+# MacOS
+.DS_store
