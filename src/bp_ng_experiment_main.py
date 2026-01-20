@@ -21,7 +21,7 @@ from matplotlib import pyplot as plt
 from qaoa.hamiltonian_generation import assign_random_weights, assign_weight_for_term
 from qaoa.utils import generate_timestamp_str
 from qaoa.data_generation import prepare_cost_function, generate_landscape
-from utils.sampling_utils import get_2D_grid_samples
+from utils.sampling_utils import get_2D_grid_samples, get_latin_hypercube_samples
 
 # delta to determine epsilon for gamma value
 delta = 0.01
@@ -39,7 +39,7 @@ HAMILTONIAN_DIR = BASE_DIR / "resources" / "QAOA" / "landscapes"
 LANDSCAPE_DIR = BASE_DIR / "resources" / "BP_NG" 
 SAMPLE_POINT_DIR = BASE_DIR / "resources" / "sample_points" / "BP_NG"
 
-def perform_grid_BP_NG_experiment():
+def perform_BP_NG_experiment(grid=True):
     timestamp = generate_timestamp_str()
     LANDSCAPE_DIR.mkdir(exist_ok=True)
     RESULTS_BASE_DIR.mkdir(exist_ok=True)
@@ -62,6 +62,10 @@ def perform_grid_BP_NG_experiment():
                         
                         # load samples points
                         file_name = f"samples_gridsize1_65_gridsize225_gamma_-0.15-1.85_beta_.25pi-.5pi.json" 
+                        sample_type_string = "grid"
+                        if(not grid):
+                            file_name = "samples_LHS_2000points_gamma_-0.15-1.85_beta_.25pi-.5pi.json"
+                            sample_type_string = "LHS"
                         samples_file_dir= SAMPLE_POINT_DIR / file_name 
                         with open(samples_file_dir) as f:
                             sample_points = np.asarray(json.load(f))
@@ -80,7 +84,7 @@ def perform_grid_BP_NG_experiment():
                         landscape_dict["max cost"] = max
                         landscape_dict["landscape"] = landscape.tolist()
 
-                        landscape_file_dir = CURR_RESULTS_DIR / f"qaoa_id_{id}_landscape_BP_NG_grid.json"
+                        landscape_file_dir = CURR_RESULTS_DIR / f"qaoa_id_{id}_landscape_BP_NG_{sample_type_string}.json"
                         landscape_file_dir.write_text(json.dumps(landscape_dict, indent=4))
 
                         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -119,8 +123,8 @@ def perform_grid_BP_NG_experiment():
                             persistence_dict["persistence diagram"] = ripser_dict
 
                             # save ripser result, including landscape, etc.
-                            file_name = f"persistence_qaoa_{id}_BP_NG_k={k}_H{dim}.json"
-                            file_name_plot = f"persistence_diagram_qaoa_{id}_BP_NG_k={k}_H{dim}.png"
+                            file_name = f"persistence_qaoa_{id}_BP_NG_k={k}_H{dim}_{sample_type_string}.json"
+                            file_name_plot = f"persistence_diagram_qaoa_{id}_BP_NG_k={k}_H{dim}_{sample_type_string}.png"
                             ripser_path = CURR_RESULTS_DIR / "ripser_results" 
                             ripser_path.mkdir(exist_ok=True)
                             plot_path = CURR_RESULTS_DIR / "persistence_diagrams"
@@ -152,7 +156,24 @@ def generate_grid_sample_points(): #DONE
     file_dir = SAMPLE_POINT_DIR / file_name
     file_dir.write_text(json.dumps(sample_points.tolist(), indent=4))
 
-#def generate_LHS_sample_points()
+def generate_LHS_sample_points():
+    SAMPLE_POINT_DIR.mkdir(exist_ok=True)
+
+    # generate grid samples
+    min_gamma = -epsilon
+    max_gamma = upper_limit_gamma-epsilon
+    min_beta = np.pi/4
+    max_beta = np.pi/2
+    beta_limits = ".25pi-.5pi"
+    n=2000
+    lowerleft = np.asarray([min_gamma, min_beta])
+    upperright = np.asarray([max_gamma, max_beta])
+    sample_points = get_latin_hypercube_samples(lowerleft, upperright, dim=2, number_of_samples=n)
+
+    # save samples
+    file_name = f"samples_LHS_{n}points_gamma_{min_gamma}-{max_gamma}_beta_{beta_limits}.json" 
+    file_dir = SAMPLE_POINT_DIR / file_name
+    file_dir.write_text(json.dumps(sample_points.tolist(), indent=4))
     
 
 def determine_epsilon_for_gamma():
@@ -190,4 +211,5 @@ if __name__ == "__main__":
     #random()
     #determine_epsilon_for_gamma()
     #generate_grid_sample_points()
-    perform_grid_BP_NG_experiment()
+    perform_BP_NG_experiment(grid=False)
+    #generate_LHS_sample_points()
