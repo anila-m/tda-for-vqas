@@ -44,6 +44,14 @@ def get_latin_hypercube_samples(lowerleft, upperright, dim, number_of_samples=10
     sample_points = qmc.scale(sample_points,l_bounds=lowerleft, u_bounds=upperright)
     return sample_points
 
+def get_2D_grid_samples(min1, min2, max1, max2, grid_size1=10, grid_size2=10):
+    x = np.linspace(min1, max1, grid_size1)
+    y = np.linspace(min2, max2, grid_size2)
+    g = np.meshgrid(x,y)
+    sample_points = np.array(g).T.reshape(-1,2)
+    return sample_points
+
+
 def get_grid_samples(min, max, dim, number_of_samples=10000):
     """
     Generates n-dimensional grid sample points. The number of sample points N per dimension is chosen s.t. N^dim <= number_of_samples
