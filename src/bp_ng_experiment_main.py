@@ -15,13 +15,14 @@ from orquestra.quantum.operators import PauliSum, PauliTerm
 from orquestra.integrations.qulacs.simulator import QulacsSimulator
 from orquestra.quantum.operators import convert_dict_to_op
 from ripser import ripser
-from persim import plot_diagrams
+from persim import plot_diagrams, bottleneck, bottleneck_matching
 from matplotlib import pyplot as plt
 
 from qaoa.hamiltonian_generation import assign_random_weights, assign_weight_for_term
 from qaoa.utils import generate_timestamp_str
 from qaoa.data_generation import prepare_cost_function, generate_landscape
 from utils.sampling_utils import get_2D_grid_samples, get_latin_hypercube_samples
+from scipy.interpolate import griddata
 
 # delta to determine epsilon for gamma value
 delta = 0.01
@@ -206,10 +207,89 @@ def determine_epsilon_for_gamma():
     print(np.round(epsilon, 2))
     return np.round(epsilon, 2)
 
+def compute_bottleneck_distances(h_dim, grid=True):
+    assert h_dim in [0,1,2]
+    RIPSER_RESULTS_DIR = RESULTS_BASE_DIR / "2026_01_20_09_42_16" / "ripser_results"
+    distance_matrix = np.zeros((5,5))
+    #k1 and k2 determine part of loss landscape that was used to compute persistence diagram
+    for k1 in range(5):
+        file1 = RIPSER_RESULTS_DIR / f"persistence_qaoa_20_BP_NG_k={k1}_H2.json"
+        results_dict1 = json.load(open(file1))
+        dgm1 = np.asarray(results_dict1["persistence diagram"]["dgms"][h_dim])
+        del results_dict1
+        for k2 in range(k1+1, 5):
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print(f"[INFO] {now}: Start k1={k1}, k2={k2}")
+            file2 = RIPSER_RESULTS_DIR / f"persistence_qaoa_20_BP_NG_k={k2}_H2.json"
+            results_dict2 = json.load(open(file2))
+            dgm2 = np.asarray(results_dict2["persistence diagram"]["dgms"][h_dim])
+            del results_dict2
+            distance, matching = bottleneck(dgm1, dgm2, matching=True)
+            bottleneck_matching(dgm1, dgm2, matching=matching, labels=[f"1/{(2**k1)}", f"1/{(2**k2)}"])
+            fig_dir = RESULTS_BASE_DIR /  "2026_01_20_09_42_16" / "bottleneck" / f"bottleneck_matching_k1_{k1}_k2_{k2}_H{h_dim}.png"
+            plt.savefig(fig_dir)
+            plt.close()
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print(f"[INFO] k1={k1}, k2={k2}: bottleneck dist = {distance}")
+            distance_matrix[k1,k2] = distance
+    return distance_matrix
+
+def plot_loss_landscape():
+    file = RESULTS_BASE_DIR / "2026_01_20_09_42_16" / "qaoa_id_20_landscape_BP_NG_grid.json"
+    results_dict = json.load(open(file))
+    landscape = np.asarray(results_dict["landscape"])
+    gamma = landscape[:,0]
+    beta = landscape[:,1]
+    loss = landscape[:,2]
+    plt.scatter(gamma, beta, c=loss, cmap="viridis")
+    plt.xlabel("gamma")
+    plt.ylabel("beta")
+    plt.xlim([0-epsilon, upper_limit_gamma-epsilon])
+    plt.ylim([np.pi/4, np.pi/2])
+    plt.show()
+
+def plot_loss_landscape2():
+    """
+        random plot. just trying stuff out
+    """
+    file = RESULTS_BASE_DIR / "2026_01_20_09_42_16" / "qaoa_id_20_landscape_BP_NG_grid.json"
+    results_dict = json.load(open(file))
+    landscape = np.asarray(results_dict["landscape"])
+    gamma = landscape[:,0]
+    beta = landscape[:,1]
+    loss = landscape[:,2]
+    # target grid to interpolate to
+
+    xi = np.arange(0-epsilon, 2-epsilon+0.01,0.01)
+    yi = np.arange(np.pi/4, np.pi/2+0.01, 0.01)
+    xi,yi = np.meshgrid(xi,yi)
+
+    # set mask
+    mask = (xi > 0.5) & (xi < 0.6) & (yi > 0.5) & (yi < 0.6)
+
+    # interpolate
+    zi = griddata((gamma,beta),loss,(xi,yi),method='linear')
+
+    # mask out the field
+    zi[mask] = np.nan
+
+    # plot
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    plt.contourf(xi,yi,zi,np.arange(0,1.01,0.01))
+    plt.plot(gamma,beta,'k.')
+    plt.xlabel('xi',fontsize=16)
+    plt.ylabel('yi',fontsize=16)
+    plt.savefig('interpolated.png',dpi=100)
+    #plt.close(fig)
 
 if __name__ == "__main__":
     #random()
     #determine_epsilon_for_gamma()
     #generate_grid_sample_points()
-    perform_BP_NG_experiment(grid=False)
+    #perform_BP_NG_experiment(grid=False)
     #generate_LHS_sample_points()
+    #distance_matrix = compute_bottleneck_distances(h_dim=1)
+    #print(distance_matrix)
+    for h in range(3):
+        compute_bottleneck_distances(h_dim=h)
