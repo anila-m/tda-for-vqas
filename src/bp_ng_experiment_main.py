@@ -65,7 +65,7 @@ def perform_BP_NG_experiment(grid=True):
                         file_name = f"samples_gridsize1_65_gridsize225_gamma_-0.15-1.85_beta_.25pi-.5pi.json" 
                         sample_type_string = "grid"
                         if(not grid):
-                            file_name = "samples_LHS_2000points_gamma_-0.15-1.85_beta_.25pi-.5pi.json"
+                            file_name = "samples_LHS_1600points_gamma_-0.15-1.85_beta_.25pi-.5pi.json"
                             sample_type_string = "LHS"
                         samples_file_dir= SAMPLE_POINT_DIR / file_name 
                         with open(samples_file_dir) as f:
@@ -166,7 +166,7 @@ def generate_LHS_sample_points():
     min_beta = np.pi/4
     max_beta = np.pi/2
     beta_limits = ".25pi-.5pi"
-    n=2000
+    n=1600
     lowerleft = np.asarray([min_gamma, min_beta])
     upperright = np.asarray([max_gamma, max_beta])
     sample_points = get_latin_hypercube_samples(lowerleft, upperright, dim=2, number_of_samples=n)
@@ -287,9 +287,9 @@ if __name__ == "__main__":
     #random()
     #determine_epsilon_for_gamma()
     #generate_grid_sample_points()
-    #perform_BP_NG_experiment(grid=False)
-    #generate_LHS_sample_points()
+    
+    generate_LHS_sample_points()
+    perform_BP_NG_experiment(grid=False)
     #distance_matrix = compute_bottleneck_distances(h_dim=1)
     #print(distance_matrix)
-    for h in range(3):
-        compute_bottleneck_distances(h_dim=h)
+    
