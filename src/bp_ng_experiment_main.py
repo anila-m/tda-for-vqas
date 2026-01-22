@@ -209,24 +209,33 @@ def determine_epsilon_for_gamma():
 
 def compute_bottleneck_distances(h_dim, grid=True):
     assert h_dim in [0,1,2]
-    RIPSER_RESULTS_DIR = RESULTS_BASE_DIR / "2026_01_20_09_42_16" / "ripser_results"
+    if grid:
+        timestamp_str = "2026_01_20_09_42_16"
+        file_ending = ""
+    else:
+        timestamp_str = "2026_01_21_16_02_21"
+        file_ending = "_LHS"
+        
+    RIPSER_RESULTS_DIR = RESULTS_BASE_DIR / timestamp_str / "ripser_results"
     distance_matrix = np.zeros((5,5))
     #k1 and k2 determine part of loss landscape that was used to compute persistence diagram
     for k1 in range(5):
-        file1 = RIPSER_RESULTS_DIR / f"persistence_qaoa_20_BP_NG_k={k1}_H2.json"
+        file1 = RIPSER_RESULTS_DIR / f"persistence_qaoa_20_BP_NG_k={k1}_H2{file_ending}.json"
         results_dict1 = json.load(open(file1))
         dgm1 = np.asarray(results_dict1["persistence diagram"]["dgms"][h_dim])
         del results_dict1
         for k2 in range(k1+1, 5):
             now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print(f"[INFO] {now}: Start k1={k1}, k2={k2}")
-            file2 = RIPSER_RESULTS_DIR / f"persistence_qaoa_20_BP_NG_k={k2}_H2.json"
+            file2 = RIPSER_RESULTS_DIR / f"persistence_qaoa_20_BP_NG_k={k2}_H2{file_ending}.json"
             results_dict2 = json.load(open(file2))
             dgm2 = np.asarray(results_dict2["persistence diagram"]["dgms"][h_dim])
             del results_dict2
             distance, matching = bottleneck(dgm1, dgm2, matching=True)
             bottleneck_matching(dgm1, dgm2, matching=matching, labels=[f"1/{(2**k1)}", f"1/{(2**k2)}"])
-            fig_dir = RESULTS_BASE_DIR /  "2026_01_20_09_42_16" / "bottleneck" / f"bottleneck_matching_k1_{k1}_k2_{k2}_H{h_dim}.png"
+            directory = RESULTS_BASE_DIR / timestamp_str / "bottleneck"
+            directory.mkdir(exist_ok=True)
+            fig_dir = RESULTS_BASE_DIR /  timestamp_str / "bottleneck" / f"bottleneck_matching_k1_{k1}_k2_{k2}_H{h_dim}.png"
             plt.savefig(fig_dir)
             plt.close()
             now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -288,8 +297,11 @@ if __name__ == "__main__":
     #determine_epsilon_for_gamma()
     #generate_grid_sample_points()
     
-    generate_LHS_sample_points()
-    perform_BP_NG_experiment(grid=False)
+    #generate_LHS_sample_points()
+    #perform_BP_NG_experiment(grid=False)
     #distance_matrix = compute_bottleneck_distances(h_dim=1)
     #print(distance_matrix)
+    for h_dim in [2]:
+        distance_matrix = compute_bottleneck_distances(h_dim=h_dim, grid=False)
+        print(distance_matrix)
     
