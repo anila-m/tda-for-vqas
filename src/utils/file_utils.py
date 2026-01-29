@@ -72,3 +72,47 @@ def save_persistence_diagrams(ripser_result, N, ham_file_label, sample_points_fi
     dict["persistence diagram"] = ripser_dict
     with open(os.path.join(dir, file_name), "w") as f:
         json.dump(dict, f, indent=4)
+
+
+def ripser_list_to_giotto(all_ripser_dgms):
+    """
+    Converts a list of Ripser persistence diagrams into one 3D array for Giotto-TDA.
+    
+    :param all_ripser_dgms: List of 'dgms' lists from Ripser.
+    """
+    # Determine the max points found in each homology dimension
+    num_homology_levels = len(all_ripser_dgms[0])
+    max_pts_per_dim = [0] * num_homology_levels
+    
+    for dgms in all_ripser_dgms:
+        for i, dgm in enumerate(dgms):
+            # Filter infinite points before counting
+            clean_len = len(dgm[np.isfinite(dgm).all(axis=1)])
+            if clean_len > max_pts_per_dim[i]:
+                max_pts_per_dim[i] = clean_len
+
+    # process and pad each diagram
+    processed_samples = []
+    for dgms in all_ripser_dgms:
+        sample_parts = []
+        for i, dgm in enumerate(dgms):
+            clean_dgm = dgm[np.isfinite(dgm).all(axis=1)]
+            n_pts = len(clean_dgm)
+            
+            # Add homology dimension column
+            dim_col = np.full((n_pts, 1), i)
+            tagged_dgm = np.hstack([clean_dgm, dim_col])
+            
+            # Pad this dimension to its relative maximum
+            if n_pts < max_pts_per_dim[i]:
+                padding_size = max_pts_per_dim[i] - n_pts
+                # Pad with (0, 0, i) 
+                padding = np.zeros((padding_size, 3))
+                padding[:, 2] = i 
+                tagged_dgm = np.vstack([tagged_dgm, padding])
+            
+            sample_parts.append(tagged_dgm)
+        
+        processed_samples.append(np.vstack(sample_parts))
+
+    return np.array(processed_samples)
