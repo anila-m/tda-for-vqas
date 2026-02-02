@@ -1,9 +1,9 @@
 import torch
 import numpy as np
 
-from qnn.data import random_unitary_matrix
-from qnn.cuda_qnn import CudaPennylane
-from qnn.qnn_landscapes import generate_data_points
+from src.qnn.data import random_unitary_matrix
+from src.qnn.cuda_qnn import CudaPennylane
+from src.qnn.qnn_landscapes import generate_data_points
 
 class CostFunction:
     def __init__(self,*, num_qubits=1, s_rank=0, num_data_points=0, data_type=0,unitary=None,inputs=None):

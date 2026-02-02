@@ -1,8 +1,8 @@
 
 from scipy.stats import unitary_group
-from utils.data_utils import *
+from src.utils.data_utils import *
 from typing import List
-from qnn.qnn import get_qnn
+from src.qnn.qnn import get_qnn
 import torch
 import copy
 import random

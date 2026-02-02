@@ -16,9 +16,9 @@ from orquestra.quantum.operators import (
 )
 from orqviz.scans import Scan2DResult
 
-from qaoa._metrics import roughness_tv, roughness_fourier_sparsity_using_norms
-from qaoa.utils import generate_timestamp_str
-from utils.data_utils import get_interval_transformation
+from src.qaoa._metrics import roughness_tv, roughness_fourier_sparsity_using_norms
+from src.qaoa.utils import generate_timestamp_str
+from src.utils.data_utils import get_interval_transformation
 
 tau = np.pi * 2
 

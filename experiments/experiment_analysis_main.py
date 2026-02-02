@@ -9,8 +9,8 @@ import os
 
 import numpy as np
 
-from utils.file_utils import ripser_list_to_giotto
-from qaoa.utils import generate_timestamp_str
+from src.qaoa.utils import generate_timestamp_str
+from src.utils.file_utils import ripser_list_to_giotto
 
 max_workers = 4
 cpu_count = os.cpu_count()
@@ -23,7 +23,7 @@ ANALYSIS_BASE_DIR = BASE_DIR / "experiment_results" / "QAOA" / "analysis" / time
 
 def get_qaoa_ids(p, set, num_qubits = None):
     """
-    Determines correct QAOA experiment ID list corresponding to number of qubits, p and sample set number
+    Determines correct QAOA experiment ID list corresponding to number of qubits (if given), p and sample set number
     
     :param num_qubits: number of qubits in [3,6,9,12,15,18]
     :param p: in [1,2,3]
@@ -215,4 +215,6 @@ def main_old():
 
 
 if __name__=="__main__":
-    main()
+    #main()
+    print(os.getcwd())
+    generate_timestamp_str()

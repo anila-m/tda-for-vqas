@@ -3,7 +3,7 @@ from typing import Tuple, Union
 import numpy as np
 import orqviz
 
-from qaoa.utils import _isolate_significant_freqs
+from src.qaoa.utils import _isolate_significant_freqs
 
 
 def roughness_tv(

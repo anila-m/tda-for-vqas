@@ -1,6 +1,6 @@
-from utils.data_utils import get_interval_transformation
+from src.utils.data_utils import get_interval_transformation
 import numpy as np
-from qnn.qnn_cost_func import CostFunction
+from src.qnn.qnn_cost_func import CostFunction
 
 def generate_qnn_landscape(unitary, datapoints, sample_points, transformed=False, transformed_min=0, transformed_max=1):
     num_qubits=2

@@ -7,8 +7,8 @@ from matplotlib import pyplot as plt
 import numpy as np
 from datetime import datetime
 
-from utils.file_utils import save_persistence_diagrams
-from utils.data_utils import transform_loss_landscape
+from src.utils.file_utils import save_persistence_diagrams
+from src.utils.data_utils import transform_loss_landscape
 
 dim = 1 # homology dimension
 total_number_landscapes = 1000

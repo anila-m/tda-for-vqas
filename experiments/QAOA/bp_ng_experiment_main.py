@@ -18,10 +18,10 @@ from ripser import ripser
 from persim import plot_diagrams, bottleneck, bottleneck_matching
 from matplotlib import pyplot as plt
 
-from qaoa.hamiltonian_generation import assign_random_weights, assign_weight_for_term
-from qaoa.utils import generate_timestamp_str
-from qaoa.data_generation import prepare_cost_function, generate_landscape
-from utils.sampling_utils import get_2D_grid_samples, get_latin_hypercube_samples
+from src.qaoa.hamiltonian_generation import assign_random_weights, assign_weight_for_term
+from src.qaoa.utils import generate_timestamp_str
+from src.qaoa.data_generation import prepare_cost_function, generate_landscape
+from src.utils.sampling_utils import get_2D_grid_samples, get_latin_hypercube_samples
 from scipy.interpolate import griddata
 
 # delta to determine epsilon for gamma value
@@ -301,6 +301,7 @@ if __name__ == "__main__":
     #perform_BP_NG_experiment(grid=False)
     #distance_matrix = compute_bottleneck_distances(h_dim=1)
     #print(distance_matrix)
+    print("something")
     for h_dim in [2]:
         distance_matrix = compute_bottleneck_distances(h_dim=h_dim, grid=False)
         print(distance_matrix)

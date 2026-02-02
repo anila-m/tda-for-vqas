@@ -1,6 +1,6 @@
 import torch
 import numpy as np
-from qnn.data import *
+from src.qnn.data import *
 
 def generate_data_points(type_of_data, schmidt_rank, num_data_points, U, num_qubits):
     """generates data points given a configuration consisting of the type of data point,

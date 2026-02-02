@@ -5,13 +5,13 @@ from ripser import ripser
 from persim import plot_diagrams
 import os
 from matplotlib import pyplot as plt
-from utils.resources import unitary, inputs_list, unitary_2, unitary_5, inputs_79, inputs_241
-from qnn.qnn_cost_func import CostFunction
-from utils.sampling_utils import get_uniformly_random_samples, get_latin_hypercube_samples
+from src.utils.resources import unitary, inputs_list, unitary_2, unitary_5, inputs_79, inputs_241
+from src.qnn.qnn_cost_func import CostFunction
+from src.utils.sampling_utils import get_uniformly_random_samples, get_latin_hypercube_samples
 from scipy.stats import qmc
 from scipy.optimize import approx_fprime
 import json
-from utils.data_utils import get_interval_transformation
+from src.utils.data_utils import get_interval_transformation
 
 #TODO: look at metrics of landscapes
 # metric values for config IDs 0 and 15 taken from Victors master thesis

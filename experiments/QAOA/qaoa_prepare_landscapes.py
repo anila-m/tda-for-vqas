@@ -1,15 +1,9 @@
 from concurrent.futures import ProcessPoolExecutor, as_completed
-from time import sleep
 import json
-import math
 import os
-import sys
 from typing import Dict
 from datetime import datetime
 from pathlib import Path
-
-SCRIPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..")
-sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 import networkx as nx
 import numpy as np
@@ -17,19 +11,14 @@ from orquestra.integrations.qulacs.simulator import QulacsSimulator
 from orquestra.opt.problems.maxcut import MaxCut
 from orquestra.quantum.operators import PauliSum, PauliTerm
 
-from qaoa.data_generation import generate_data, prepare_cost_function, save_hamiltonians, perform_2D_scan, generate_landscape
-from qaoa.hamiltonian_generation import assign_random_weights, assign_weight_for_term
-from qaoa.plots import create_plot, create_tda_plot
-from qaoa.utils import generate_timestamp_str
-from utils.sampling_utils import get_latin_hypercube_samples, get_grid_samples
-from utils.file_utils import save_landscape, save_persistence_diagrams
+from src.qaoa.data_generation import prepare_cost_function, generate_landscape
+from src.qaoa.hamiltonian_generation import assign_random_weights, assign_weight_for_term
 
-import orqviz
-from orqviz.scans import Scan2DResult
-from typing import Any, Dict, List, Optional, Tuple
-from ripser import ripser
-from persim import plot_diagrams
-from matplotlib import pyplot as plt
+from src.qaoa.utils import generate_timestamp_str
+from src.utils.sampling_utils import get_latin_hypercube_samples
+from src.utils.file_utils import save_landscape
+
+from typing import Dict
 from scipy.stats import qmc
 
 
@@ -39,7 +28,7 @@ num_runs=5
 N = 10000
 
 # Directories
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 LANDSCAPE_DIR = BASE_DIR / "resources" / "QAOA" / "landscapes"
 
 
@@ -202,4 +191,9 @@ def fix_qaoa_id_numbering():
 
 if __name__ == "__main__":
     #generate_LHS_sample_points_for_qaoa() #done
-    fix_qaoa_id_numbering()
+    #fix_qaoa_id_numbering()
+    generate_timestamp_str()
+    get_latin_hypercube_samples([0,0], [1,1], dim=2)
+    print("successful")
+    print(BASE_DIR)
+    

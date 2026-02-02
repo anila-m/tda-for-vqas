@@ -1,24 +1,20 @@
 import json
-import math
 import os
-import sys
-from typing import Dict
 from datetime import datetime
-
-from utils.sampling_utils import get_latin_hypercube_samples
-
-SCRIPT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..")
-sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 import networkx as nx
 import numpy as np
 from orquestra.integrations.qulacs.simulator import QulacsSimulator
 from orquestra.opt.problems.maxcut import MaxCut
-from orquestra.quantum.operators import PauliSum, PauliTerm
+from orquestra.quantum.operators import PauliTerm
 
-from qaoa.data_generation import generate_data, prepare_cost_function, save_hamiltonians, perform_2D_scan
-from qaoa.hamiltonian_generation import assign_random_weights, assign_weight_for_term
-from qaoa.utils import calculate_plot_extents, generate_timestamp_str
+from src.qaoa.data_generation import prepare_cost_function, save_hamiltonians, generate_landscape
+from src.qaoa.hamiltonian_generation import assign_random_weights, assign_weight_for_term
+from src.qaoa.utils import generate_timestamp_str
+
+from src.utils.sampling_utils import get_latin_hypercube_samples
+from src.utils.file_utils import save_landscape, save_persistence_diagrams
+from src.utils.data_utils import get_interval_transformation
 
 
 from ripser import ripser
@@ -26,11 +22,9 @@ from persim import plot_diagrams
 from matplotlib import pyplot as plt
 from scipy.stats import qmc
 
-from utils.file_utils import save_landscape, save_persistence_diagrams
-from utils.data_utils import get_interval_transformation
-from qaoa.data_generation import generate_landscape
 
-from qaoa_prepare_landscapes import generate_LHS_sample_points_for_qaoa
+
+
 
 
 backend = QulacsSimulator()
@@ -242,6 +236,7 @@ if __name__ == "__main__":
     #qaoa_transformed_main()
     #main()
     #generate_loss_landscapes_for_test()
-    qaoa_h2_test()
+    #qaoa_h2_test()
+    print("successful")
     
 

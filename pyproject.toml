@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tda-for-vqas"
+version = "0.1.0"
+description = "Performing TDA for VQAs"
+dependencies = [] # Add external libs here, like 'numpy' or 'qiskit'
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]

@@ -8,7 +8,7 @@ import orqviz
 from matplotlib import pyplot as plt
 from orqviz.plot_utils import get_colorbar_from_ax
 
-from qaoa.utils import generate_timestamp_str
+from src.qaoa.utils import generate_timestamp_str
 from ripser import ripser
 from persim import plot_diagrams
 from datetime import datetime

@@ -8,10 +8,10 @@ from scipy.stats import qmc
 import torch
 from ripser import ripser
 
-from utils.sampling_utils import get_latin_hypercube_samples
-from utils.file_utils import save_qnn_landscape
-from qaoa.utils import generate_timestamp_str
-from qnn.qnn_untils import generate_qnn_landscape
+from src.utils.sampling_utils import get_latin_hypercube_samples
+from src.utils.file_utils import save_qnn_landscape
+from src.qaoa.utils import generate_timestamp_str
+from src.qnn.qnn_untils import generate_qnn_landscape
 
 def generate_LHS_sample_points_for_qnn(number_of_samples=10000, min=0, max=2*np.pi):
     """
@@ -173,4 +173,5 @@ def main(transformed = False, transformed_min = 50, transformed_max = 100):
 
 
 if __name__=="__main__":
-    main(transformed=True)
+    #main(transformed=True)
+    print("successful")
