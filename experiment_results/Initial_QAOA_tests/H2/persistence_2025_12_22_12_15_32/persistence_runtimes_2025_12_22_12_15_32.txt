@@ -1,0 +1,2 @@
+Persistence runtimes (H2, ripser package) for 3qubit QAOA 
+N = Number of sample points, Sampling method: Latin Hypercube Sampling
