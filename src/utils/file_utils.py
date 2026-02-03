@@ -87,7 +87,9 @@ def ripser_list_to_giotto(all_ripser_dgms):
     for dgms in all_ripser_dgms:
         for i, dgm in enumerate(dgms):
             # Filter infinite points before counting
-            clean_len = len(dgm[np.isfinite(dgm).all(axis=1)])
+            #print(dgm.shape)
+            if(len(dgm) < 1): clean_len = 0
+            else: clean_len = len(dgm[np.isfinite(dgm).all(axis=1)])
             if clean_len > max_pts_per_dim[i]:
                 max_pts_per_dim[i] = clean_len
 
@@ -96,7 +98,8 @@ def ripser_list_to_giotto(all_ripser_dgms):
     for dgms in all_ripser_dgms:
         sample_parts = []
         for i, dgm in enumerate(dgms):
-            clean_dgm = dgm[np.isfinite(dgm).all(axis=1)]
+            if len(dgm) < 1: clean_dgm = np.zeros((1,2))
+            else: clean_dgm = dgm[np.isfinite(dgm).all(axis=1)]
             n_pts = len(clean_dgm)
             
             # Add homology dimension column

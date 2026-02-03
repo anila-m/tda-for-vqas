@@ -4,6 +4,7 @@ Experiment of 2D QAOA landscape containing both barren plateau (BP) and narrow g
 
 from datetime import datetime
 import json
+import os
 from pathlib import Path
 from typing import Dict
 
@@ -17,12 +18,16 @@ from orquestra.quantum.operators import convert_dict_to_op
 from ripser import ripser
 from persim import plot_diagrams, bottleneck, bottleneck_matching
 from matplotlib import pyplot as plt
+from gtda.diagrams import PairwiseDistance
 
 from src.qaoa.hamiltonian_generation import assign_random_weights, assign_weight_for_term
 from src.qaoa.utils import generate_timestamp_str
 from src.qaoa.data_generation import prepare_cost_function, generate_landscape
+from src.utils.file_utils import ripser_list_to_giotto
 from src.utils.sampling_utils import get_2D_grid_samples, get_latin_hypercube_samples
 from scipy.interpolate import griddata
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # delta to determine epsilon for gamma value
 delta = 0.01
@@ -30,17 +35,19 @@ threshold = 1e-2
 epsilon = 0.15 # determined epsilon rounded to two decimal places
 upper_limit_gamma = 2
 dim = 2 # max homology dimension
+beta_offset = np.pi/16
+cpu_count = os.cpu_count()
 
 # backend simulator
 backend = QulacsSimulator()
 # Directories
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 RESULTS_BASE_DIR = BASE_DIR / "experiment_results" / "BP_NG"
 HAMILTONIAN_DIR = BASE_DIR / "resources" / "QAOA" / "landscapes"
 LANDSCAPE_DIR = BASE_DIR / "resources" / "BP_NG" 
 SAMPLE_POINT_DIR = BASE_DIR / "resources" / "sample_points" / "BP_NG"
 
-def perform_BP_NG_experiment(grid=True):
+def perform_BP_NG_experiment(grid=True, small_excerpt=False):
     timestamp = generate_timestamp_str()
     LANDSCAPE_DIR.mkdir(exist_ok=True)
     RESULTS_BASE_DIR.mkdir(exist_ok=True)
@@ -62,11 +69,19 @@ def perform_BP_NG_experiment(grid=True):
                         loss_function = prepare_cost_function(hamiltonian, backend)
                         
                         # load samples points
-                        file_name = f"samples_gridsize1_65_gridsize225_gamma_-0.15-1.85_beta_.25pi-.5pi.json" 
-                        sample_type_string = "grid"
-                        if(not grid):
-                            file_name = "samples_LHS_1600points_gamma_-0.15-1.85_beta_.25pi-.5pi.json"
+                        if grid:
+                            sample_type_string = "grid"
+                            if small_excerpt:
+                                file_name = "samples_gridsize1_65_gridsize225_gamma_-0.15-1.85_beta_.3125pi-.4375pi.json"
+                            else:
+                                file_name = f"samples_gridsize1_65_gridsize225_gamma_-0.15-1.85_beta_.25pi-.5pi.json" 
+                        else:
                             sample_type_string = "LHS"
+                            if small_excerpt:
+                                file_name = "samples_LHS_1600points_gamma_-0.15-1.85_beta_.3125pi-.4375pi.json"
+                            else:
+                                file_name = "samples_LHS_1600points_gamma_-0.15-1.85_beta_.25pi-.5pi.json"
+
                         samples_file_dir= SAMPLE_POINT_DIR / file_name 
                         with open(samples_file_dir) as f:
                             sample_points = np.asarray(json.load(f))
@@ -147,9 +162,10 @@ def generate_grid_sample_points(): #DONE
     # generate grid samples
     min_gamma = -epsilon
     max_gamma = upper_limit_gamma-epsilon
-    min_beta = np.pi/4
-    max_beta = np.pi/2
-    beta_limits = ".25pi-.5pi"
+    min_beta = np.pi/4 + beta_offset
+    max_beta = np.pi/2 - beta_offset
+    # if beta_limits = ".3125pi-.4375pi" then beta_offset = np.pi/16
+    beta_limits = ".3125pi-.4375pi" # TODO: anpassen wenn beta_offset geändert wird
     sample_points = get_2D_grid_samples(min_gamma, min_beta, max_gamma, max_beta, grid_size1=65, grid_size2=25)
 
     # save samples
@@ -163,9 +179,10 @@ def generate_LHS_sample_points():
     # generate grid samples
     min_gamma = -epsilon
     max_gamma = upper_limit_gamma-epsilon
-    min_beta = np.pi/4
-    max_beta = np.pi/2
-    beta_limits = ".25pi-.5pi"
+    min_beta = np.pi/4 + beta_offset
+    max_beta = np.pi/2 - beta_offset
+    # if beta_limits = ".3125pi-.4375pi" then beta_offset = np.pi/16
+    beta_limits = ".3125pi-.4375pi" # TODO: anpassen wenn beta_offset geändert wird
     n=1600
     lowerleft = np.asarray([min_gamma, min_beta])
     upperright = np.asarray([max_gamma, max_beta])
@@ -292,17 +309,124 @@ def plot_loss_landscape2():
     plt.savefig('interpolated.png',dpi=100)
     #plt.close(fig)
 
+def plot_loss_landscape_interpolated(directory, filename):
+    file = directory / filename
+    results_dict = json.load(open(file))
+    landscape = np.asarray(results_dict["landscape"])
+    # ... (your existing loading code) ...
+    gamma = landscape[:,0]
+    beta = landscape[:,1]
+    loss = landscape[:,2]
+
+    # 1. Create a dense grid to interpolate onto
+    grid_gamma, grid_beta = np.mgrid[
+        gamma.min():gamma.max():200j, 
+        beta.min():beta.max():200j
+    ]
+
+    # 2. Interpolate the scattered data onto the grid
+    # Options for method: 'linear', 'cubic', or 'nearest'
+    grid_loss = griddata((gamma, beta), loss, (grid_gamma, grid_beta), method='nearest')
+
+    # 3. Plot using imshow or pcolormesh
+    plt.figure(figsize=(8, 6))
+    plt.imshow(
+        grid_loss.T, 
+        extent=(gamma.min(), gamma.max(), beta.min(), beta.max()),
+        origin='lower', 
+        aspect='auto',
+        cmap="viridis"
+    )
+    
+    plt.colorbar(label='Loss')
+    plt.xlabel("gamma")
+    plt.ylabel("beta")
+    plt.savefig(directory/"loss_landscape_plot_interpolated.pdf")
+
+def compute_distance_for_all_k_using_giotto(RESOURCE_DIR, grid= True, metric = "bottleneck"):
+    persistence_diagram_list = []
+    for k in range(5):
+        if grid:
+            file_name = f"persistence_qaoa_20_BP_NG_k={k}_H2.json"
+        else:
+            file_name = f"persistence_qaoa_20_BP_NG_k={k}_H2_LHS.json"
+        file = RESOURCE_DIR / file_name
+        r_dict = json.load(open(file))
+        d = r_dict["persistence diagram"]["dgms"]
+        dgm = [np.asarray(v) for v in d]
+        persistence_diagram_list.append(dgm)
+    giotto_diagrams = ripser_list_to_giotto(persistence_diagram_list)
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(f"[INFO] {now}: Starting metric={metric}, grid={grid} ...")
+    PD = PairwiseDistance(metric = metric, n_jobs=cpu_count-2, order=None)
+    dist_matrices = PD.fit_transform(giotto_diagrams)
+    del giotto_diagrams
+    del persistence_diagram_list
+    
+    # save distance matrices
+    results_dict = {"resource directory": str(RESOURCE_DIR), "metric": metric, "distance values": {}}
+    results_dict["distance values"]["H0"] = dist_matrices[:,:,0].tolist()
+    results_dict["distance values"]["H1"] = dist_matrices[:,:,1].tolist()
+    results_dict["distance values"]["H2"] = dist_matrices[:,:,2].tolist()
+    file_dir = RESOURCE_DIR / "metrics"
+    file_dir.mkdir(exist_ok=True)
+    file = file_dir / f"BP_NG_{metric}.json"
+    file.write_text(json.dumps(results_dict, indent=4))
+
+    # make heatmaps
+    # Configuration for the plot
+    sup_title = "{statistic} of {metric} distance"
+    titles = ["H0", "H1", "H2"]
+    ks = ["1/1", "1/2", "1/4", "1/8", "1/16"]
+
+    # Create a 1x3 grid of subplots
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+    axes = axes.flatten()
+    for h in range(3):
+        matrix = dist_matrices[:,:,h]
+        # Plotting the heatmap
+        sns.heatmap(matrix, annot=True, fmt=".2f", ax=axes[h], 
+            xticklabels=ks, yticklabels=ks, cmap='viridis')
+            
+        axes[h].set_title(titles[h])
+        axes[h].set_xlabel('Share')
+        axes[h].set_ylabel('Share')
+
+    plt.tight_layout()
+    plt.savefig(file_dir / f'BP_NG_heatmap_{metric}.pdf')
+    plt.close()
+
 if __name__ == "__main__":
     #random()
     #determine_epsilon_for_gamma()
-    #generate_grid_sample_points()
+    # generate_grid_sample_points()
     
-    #generate_LHS_sample_points()
-    #perform_BP_NG_experiment(grid=False)
+    # generate_LHS_sample_points()
+    # perform_BP_NG_experiment(grid=True, small_excerpt=True)
+    # perform_BP_NG_experiment(grid=False, small_excerpt=True)
     #distance_matrix = compute_bottleneck_distances(h_dim=1)
     #print(distance_matrix)
-    print("something")
-    for h_dim in [2]:
-        distance_matrix = compute_bottleneck_distances(h_dim=h_dim, grid=False)
-        print(distance_matrix)
+    # print("something")
+    # for h_dim in [2]:
+    #     distance_matrix = compute_bottleneck_distances(h_dim=h_dim, grid=False)
+    #     print(distance_matrix)
+    # directory = BASE_DIR / "experiment_results/BP_NG/big_excerpt/grid_samples/ripser_results"
+    # compute_distance_for_all_k_using_giotto(directory, grid=True, metric="bottleneck")
+    # compute_distance_for_all_k_using_giotto(directory, grid=True, metric="wasserstein")
+
+    # directory = BASE_DIR / "experiment_results/BP_NG/big_excerpt/LHS_samples/ripser_results"
+    # compute_distance_for_all_k_using_giotto(directory, grid=False, metric="bottleneck")
+    # compute_distance_for_all_k_using_giotto(directory, grid=False, metric="wasserstein")
     
+    
+    filename = "qaoa_id_20_landscape_BP_NG_LHS.json"
+    dir = BASE_DIR / "experiment_results/BP_NG/small_excerpt/LHS_samples"
+    plot_loss_landscape_interpolated(dir, filename)
+    dir = BASE_DIR / "experiment_results/BP_NG/big_excerpt/LHS_samples"
+    plot_loss_landscape_interpolated(dir, filename)
+
+    filename = "qaoa_id_20_landscape_BP_NG_grid.json"
+    dir = BASE_DIR / "experiment_results/BP_NG/small_excerpt/grid_samples"
+    plot_loss_landscape_interpolated(dir, filename)
+    dir = BASE_DIR / "experiment_results/BP_NG/big_excerpt/grid_samples"
+    plot_loss_landscape_interpolated(dir, filename)
