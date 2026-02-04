@@ -224,22 +224,25 @@ def determine_epsilon_for_gamma():
     print(np.round(epsilon, 2))
     return np.round(epsilon, 2)
 
-def compute_bottleneck_distances(h_dim, grid=True):
+def compute_bottleneck_distances(RESULTS_DIR, h_dim, grid=True):
     assert h_dim in [0,1,2]
     if grid:
-        timestamp_str = "2026_01_20_09_42_16"
-        file_ending = ""
+        timestamp_str = "grid_samples"
+        file_ending = "_grid"
     else:
-        timestamp_str = "2026_01_21_16_02_21"
+        timestamp_str = "LHS_samples"
         file_ending = "_LHS"
         
-    RIPSER_RESULTS_DIR = RESULTS_BASE_DIR / timestamp_str / "ripser_results"
+    RIPSER_RESULTS_DIR = RESULTS_DIR / timestamp_str / "ripser_results"
+    directory = RESULTS_DIR / timestamp_str / "bottleneck_matching"
+    directory.mkdir(exist_ok=True)
     distance_matrix = np.zeros((5,5))
     #k1 and k2 determine part of loss landscape that was used to compute persistence diagram
     for k1 in range(5):
         file1 = RIPSER_RESULTS_DIR / f"persistence_qaoa_20_BP_NG_k={k1}_H2{file_ending}.json"
         results_dict1 = json.load(open(file1))
         dgm1 = np.asarray(results_dict1["persistence diagram"]["dgms"][h_dim])
+        if len(dgm1) < 1: dgm1 = np.zeros((1,2))
         del results_dict1
         for k2 in range(k1+1, 5):
             now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -247,17 +250,20 @@ def compute_bottleneck_distances(h_dim, grid=True):
             file2 = RIPSER_RESULTS_DIR / f"persistence_qaoa_20_BP_NG_k={k2}_H2{file_ending}.json"
             results_dict2 = json.load(open(file2))
             dgm2 = np.asarray(results_dict2["persistence diagram"]["dgms"][h_dim])
+            if len(dgm2) < 1: dgm2 = np.zeros((1,2))
             del results_dict2
             distance, matching = bottleneck(dgm1, dgm2, matching=True)
             bottleneck_matching(dgm1, dgm2, matching=matching, labels=[f"1/{(2**k1)}", f"1/{(2**k2)}"])
-            directory = RESULTS_BASE_DIR / timestamp_str / "bottleneck"
-            directory.mkdir(exist_ok=True)
-            fig_dir = RESULTS_BASE_DIR /  timestamp_str / "bottleneck" / f"bottleneck_matching_k1_{k1}_k2_{k2}_H{h_dim}.png"
+            fig_dir = directory / f"bottleneck_matching_k1_{k1}_k2_{k2}_H{h_dim}.png"
             plt.savefig(fig_dir)
             plt.close()
             now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print(f"[INFO] k1={k1}, k2={k2}: bottleneck dist = {distance}")
             distance_matrix[k1,k2] = distance
+            distance_matrix[k2,k1] = distance
+    file = directory / f"bottleneck_matching_distances_H{h_dim}.json"
+    file.write_text(json.dumps(distance_matrix.tolist(), indent=4))
+
     return distance_matrix
 
 def plot_loss_landscape():
@@ -419,14 +425,19 @@ if __name__ == "__main__":
     # compute_distance_for_all_k_using_giotto(directory, grid=False, metric="wasserstein")
     
     
-    filename = "qaoa_id_20_landscape_BP_NG_LHS.json"
-    dir = BASE_DIR / "experiment_results/BP_NG/small_excerpt/LHS_samples"
-    plot_loss_landscape_interpolated(dir, filename)
-    dir = BASE_DIR / "experiment_results/BP_NG/big_excerpt/LHS_samples"
-    plot_loss_landscape_interpolated(dir, filename)
+    # filename = "qaoa_id_20_landscape_BP_NG_LHS.json"
+    # dir = BASE_DIR / "experiment_results/BP_NG/small_excerpt/LHS_samples"
+    # plot_loss_landscape_interpolated(dir, filename)
+    # dir = BASE_DIR / "experiment_results/BP_NG/big_excerpt/LHS_samples"
+    # plot_loss_landscape_interpolated(dir, filename)
 
-    filename = "qaoa_id_20_landscape_BP_NG_grid.json"
-    dir = BASE_DIR / "experiment_results/BP_NG/small_excerpt/grid_samples"
-    plot_loss_landscape_interpolated(dir, filename)
-    dir = BASE_DIR / "experiment_results/BP_NG/big_excerpt/grid_samples"
-    plot_loss_landscape_interpolated(dir, filename)
+    # filename = "qaoa_id_20_landscape_BP_NG_grid.json"
+    # dir = BASE_DIR / "experiment_results/BP_NG/small_excerpt/grid_samples"
+    # plot_loss_landscape_interpolated(dir, filename)
+    # dir = BASE_DIR / "experiment_results/BP_NG/big_excerpt/grid_samples"
+    # plot_loss_landscape_interpolated(dir, filename)
+
+    results_dir = RESULTS_BASE_DIR / "small_excerpt"
+    for H in range(1,3):
+        compute_bottleneck_distances(results_dir, h_dim=H, grid=True)
+        compute_bottleneck_distances(results_dir, h_dim=H, grid=False)
