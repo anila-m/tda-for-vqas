@@ -272,7 +272,10 @@ def plot_heatmaps_all_p_all_homologies(metric, statistic):
     del data
 
 if __name__=="__main__":
-    for metric in ["wasserstein", "bottleneck"]:
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(f"[INFO] {now}: Starting bottleneck, not transformed")
+    main(transformed=False, metric="bottleneck")
+    for metric in ["wasserstein"]:
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"[INFO] {now}: Starting {metric}, transformed")
         main(transformed=True, metric=metric)
