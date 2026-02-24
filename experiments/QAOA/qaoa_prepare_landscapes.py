@@ -143,7 +143,7 @@ def generate_qaoa_landscape(ham_config_dict, ham_file_label, p, set):
     n=2*p
     num_qubits = ham_config_dict[ham_file_label]["num_qubits"]
     run = ham_config_dict[ham_file_label]["run"]
-    id = (p-1)*150+set*25+(num_qubits//3-1)*5+run # compute config id for later # should be set*30!! 
+    id = (p-1)*150+set*30+(num_qubits//3-1)*5+run # compute config id for later # should be set*30!! 
     print(p, num_qubits, run, id)
     # get hamiltonian
     hamiltonian = ham_config_dict[ham_file_label]["hamiltonian"]

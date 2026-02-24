@@ -315,26 +315,21 @@ def plot_loss_landscape2():
     plt.savefig('interpolated.png',dpi=100)
     #plt.close(fig)
 
-def plot_loss_landscape_interpolated(directory, filename):
-    file = directory / filename
-    results_dict = json.load(open(file))
-    landscape = np.asarray(results_dict["landscape"])
-    # ... (your existing loading code) ...
+def plot_loss_landscape_interpolated(landscape, directory, filename):
+    
     gamma = landscape[:,0]
     beta = landscape[:,1]
     loss = landscape[:,2]
 
-    # 1. Create a dense grid to interpolate onto
+    # dense grid
     grid_gamma, grid_beta = np.mgrid[
         gamma.min():gamma.max():200j, 
         beta.min():beta.max():200j
     ]
 
-    # 2. Interpolate the scattered data onto the grid
-    # Options for method: 'linear', 'cubic', or 'nearest'
+    # Interpolate the scattered data onto the grid
     grid_loss = griddata((gamma, beta), loss, (grid_gamma, grid_beta), method='nearest')
 
-    # 3. Plot using imshow or pcolormesh
     plt.figure(figsize=(8, 6))
     plt.imshow(
         grid_loss.T, 
@@ -347,7 +342,7 @@ def plot_loss_landscape_interpolated(directory, filename):
     plt.colorbar(label='Loss')
     plt.xlabel("gamma")
     plt.ylabel("beta")
-    plt.savefig(directory/"loss_landscape_plot_interpolated.pdf")
+    plt.savefig(directory/filename)
 
 def compute_distance_for_all_k_using_giotto(RESOURCE_DIR, grid= True, metric = "bottleneck"):
     persistence_diagram_list = []
@@ -424,7 +419,7 @@ if __name__ == "__main__":
     # compute_distance_for_all_k_using_giotto(directory, grid=False, metric="bottleneck")
     # compute_distance_for_all_k_using_giotto(directory, grid=False, metric="wasserstein")
     
-    
+    # following code won't work anymore!
     # filename = "qaoa_id_20_landscape_BP_NG_LHS.json"
     # dir = BASE_DIR / "experiment_results/BP_NG/small_excerpt/LHS_samples"
     # plot_loss_landscape_interpolated(dir, filename)
