@@ -112,126 +112,189 @@ def main(transformed=False, metric="bottleneck"):
     file_H1.write_text(json.dumps(dist_dict_H1, indent=4))
 
 
-def compute_statistics_of_distance_per_p_and_set(metric, homology_dim):
+def compute_statistics_of_distance_set(metric, homology_dim, transformed=True):
     """
-    Compute mean, median, std of metric values between persistence diagrams of different qaoa instances
+    Compute mean, median, std of metric values between persistence diagrams of different qnn instances
     
     :param metric: metric used to analyze persistence diagrams, can be bottleneck or wasserstein
     """
     assert metric in ["bottleneck", "wasserstein"]
     assert homology_dim in [0,1]
+    if transformed: file_name = "transformed_50_100"
+    else: file_name = "not_transformed"
 
-    result_dict = {"info": "results are matrices of values, lines and columns correspond to # qubits, i.e. [3,6,9,12,15,18]. Distances between same qubit counts only take distances between different runs of same qubit count into account.", "metric": metric, "homology dimension": homology_dim}
-    file = METRIC_BASE_DIR / f"QAOA_{metric}_H{homology_dim}.json"
+    result_dict = {"info": "results are matrices of values, lines and columns correspond to Schmidt rank, i.e. [1,2,3,4]. Distances between same schmid ranks only take distances between different runs of same qubit count into account.", "metric": metric, "homology dimension": homology_dim, "transformed": file_name}
+    file = METRIC_BASE_DIR / f"QNN_{metric}_{file_name}_H{homology_dim}.json"
     all_values = json.load(open(file))
-    for p in [1,2,3]:
-        result_dict[p] = {} 
+    
+    for unitary in range(5):
+        result_dict[unitary] = {}
         for set in range(5):
-            result_dict[p][set] = {"p": p, "set": set} 
-            curr_values = np.asarray(all_values[str(p)][str(set)]["distances matrix"])
-            means = np.zeros((6,6))
-            medians = np.zeros((6,6))
-            stds = np.zeros((6,6))
-            for num_qubits_1 in range(6):
-                for num_qubits_2 in range(num_qubits_1,6):
+            result_dict[unitary][set] = {"unitary": unitary, "set": set} 
+            curr_values = np.asarray(all_values[str(set)][str(unitary)]["distances matrix"])
+            means = np.zeros((4,4))
+            medians = np.zeros((4,4))
+            stds = np.zeros((4,4))
+            for srank_1 in range(4):
+                for srank_2 in range(srank_1,4):
                     # Get distance values
-                    min_index1 = num_qubits_1*5
+                    min_index1 = srank_1*5
                     max_index1 = min_index1+5
-                    min_index2 = num_qubits_2*5
+                    min_index2 = srank_2*5
                     max_index2 = min_index2+5
                     block1 = curr_values[min_index1:max_index1, min_index2:max_index2] 
                     block2 = curr_values[min_index2:max_index2, min_index1:max_index1]
 
                     # Flatten and combine into one pool of values
                     combined_values = np.concatenate([block1.ravel(), block2.ravel()])
-                    if(num_qubits_1 == num_qubits_2):
+                    if(srank_1 == srank_2):
                         # remove zeros from combined values
                         combined_values = combined_values[combined_values != 0]
 
                     # Compute statistics
-                    means[num_qubits_1, num_qubits_2] = np.mean(combined_values)
-                    means[num_qubits_2, num_qubits_1] = np.mean(combined_values)
-                    medians[num_qubits_1, num_qubits_2] = np.median(combined_values)
-                    medians[num_qubits_2, num_qubits_1] = np.median(combined_values)
-                    stds[num_qubits_1, num_qubits_2] = np.std(combined_values)
-                    stds[num_qubits_2, num_qubits_1] = np.median(combined_values)
-            result_dict[p][set]["mean"] = means.tolist()
-            result_dict[p][set]["median"] = medians.tolist()
-            result_dict[p][set]["std"] = stds.tolist()
+                    means[srank_1, srank_2] = np.mean(combined_values)
+                    means[srank_2, srank_1] = np.mean(combined_values)
+                    medians[srank_1, srank_2] = np.median(combined_values)
+                    medians[srank_2, srank_1] = np.median(combined_values)
+                    stds[srank_1, srank_2] = np.std(combined_values)
+                    stds[srank_2, srank_1] = np.median(combined_values)
+            result_dict[unitary][set]["mean"] = means.tolist()
+            result_dict[unitary][set]["median"] = medians.tolist()
+            result_dict[unitary][set]["std"] = stds.tolist()
     
     # compute statistics over all sets
-    for p in [1,2,3]:
-        means = np.zeros((6,6))
-        medians = np.zeros((6,6))
-        stds = np.zeros((6,6))
-        result_dict[p]["all"] = {}
-        for num_qubits_1 in range(6):
-            for num_qubits_2 in range(num_qubits_1,6):
+    for unitary in range(5):
+        means = np.zeros((4,4))
+        medians = np.zeros((4,4))
+        stds = np.zeros((4,4))
+        result_dict[unitary]["all"] = {}
+        for srank_1 in range(4):
+            for srank_2 in range(srank_1,4):
                 # Get distance matrix index values
-                min_index1 = num_qubits_1*5
+                min_index1 = srank_1*5
                 max_index1 = min_index1+5
-                min_index2 = num_qubits_2*5
+                min_index2 = srank_2*5
                 max_index2 = min_index2+5
                 values = []
                 for set in range(5):
-                    curr_values = np.asarray(all_values[str(p)][str(set)]["distances matrix"])
+                    curr_values = np.asarray(all_values[str(set)][str(unitary)]["distances matrix"])
             
                     block1 = curr_values[min_index1:max_index1, min_index2:max_index2] 
                     block2 = curr_values[min_index2:max_index2, min_index1:max_index1]
 
                     # Flatten and combine into one pool of values
                     combined_values = np.concatenate([block1.ravel(), block2.ravel()])
-                    if(num_qubits_1 == num_qubits_2):
+                    if(srank_1 == srank_2):
                         # remove zeros from combined values
                         combined_values = combined_values[combined_values != 0]
                     values.append(combined_values)
                 # Compute statistics
-                means[num_qubits_1, num_qubits_2] = np.mean(values)
-                means[num_qubits_2, num_qubits_1] = np.mean(values)
-                medians[num_qubits_1, num_qubits_2] = np.median(values)
-                medians[num_qubits_2, num_qubits_1] = np.median(values)
-                stds[num_qubits_1, num_qubits_2] = np.std(values)
-                stds[num_qubits_2, num_qubits_1] = np.std(values)
-        result_dict[p]["all"]["mean"] = means.tolist()
-        result_dict[p]["all"]["median"] = medians.tolist()
-        result_dict[p]["all"]["std"] = stds.tolist()
+                means[srank_1, srank_2] = np.mean(values)
+                means[srank_2, srank_1] = np.mean(values)
+                medians[srank_1, srank_2] = np.median(values)
+                medians[srank_2, srank_1] = np.median(values)
+                stds[srank_1, srank_2] = np.std(values)
+                stds[srank_2, srank_1] = np.std(values)
+        result_dict[unitary]["all"]["mean"] = means.tolist()
+        result_dict[unitary]["all"]["median"] = medians.tolist()
+        result_dict[unitary]["all"]["std"] = stds.tolist()
+    
+    
+    # compute statistics over all unitaries
+    means = np.zeros((4,4))
+    medians = np.zeros((4,4))
+    stds = np.zeros((4,4))
+    result_dict["all"] = {}
+    
+    for srank_1 in range(4):
+        for srank_2 in range(srank_1,4):
+            values = []
+            for unitary in range(5):
+                # Get distance matrix index values
+                min_index1 = srank_1*5
+                max_index1 = min_index1+5
+                min_index2 = srank_2*5
+                max_index2 = min_index2+5
+                for set in range(5):
+                    curr_values = np.asarray(all_values[str(set)][str(unitary)]["distances matrix"])
+            
+                    block1 = curr_values[min_index1:max_index1, min_index2:max_index2] 
+                    block2 = curr_values[min_index2:max_index2, min_index1:max_index1]
+
+                    # Flatten and combine into one pool of values
+                    combined_values = np.concatenate([block1.ravel(), block2.ravel()])
+                    if(srank_1 == srank_2):
+                        # remove zeros from combined values
+                        combined_values = combined_values[combined_values != 0]
+                    values.append(combined_values)
+            
+            # Compute statistics
+            means[srank_1, srank_2] = np.mean(values)
+            means[srank_2, srank_1] = np.mean(values)
+            medians[srank_1, srank_2] = np.median(values)
+            medians[srank_2, srank_1] = np.median(values)
+            stds[srank_1, srank_2] = np.std(values)
+            stds[srank_2, srank_1] = np.std(values)
+        result_dict["all"]["mean"] = means.tolist()
+        result_dict["all"]["median"] = medians.tolist()
+        result_dict["all"]["std"] = stds.tolist()
+
+
     # save results
     ANALYSIS_BASE_DIR.mkdir(exist_ok=True)
-    file = ANALYSIS_BASE_DIR / f"QAOA_{metric}_H{homology_dim}_statistics.json"
+    file = ANALYSIS_BASE_DIR / f"QNN_{file_name}_{metric}_H{homology_dim}_statistics.json"
     file.write_text(json.dumps(result_dict, indent=4))
 
-def plot_heatmaps_all_sets(metric, homology_dim, statistic):
+def plot_heatmaps_all_unitaries(metric, homology_dim, statistic, transformed=True):
+    assert metric in ["bottleneck", "wasserstein"]
+    assert homology_dim in [0,1]
+    if transformed: file_name = "transformed_50_100"
+    else: file_name = "not_transformed"
+
     # Load the matrix data
-    file = METRIC_BASE_DIR / f"QAOA_{metric}_H{homology_dim}_statistics.json"
+    file = METRIC_BASE_DIR / f"QNN_{file_name}_{metric}_H{homology_dim}_statistics.json"
     data = json.load(open(file))
     HEATMAPS_DIR = ANALYSIS_BASE_DIR / f"{statistic}_distances"
     ANALYSIS_BASE_DIR.mkdir(exist_ok=True)
     HEATMAPS_DIR.mkdir(exist_ok=True)
 
+
+
     # Configuration for the plot
-    sets_to_plot = ['all', '0', '1', '2', '3', '4']
+    unitaries_to_plot = ['all', '0', '1', '2', '3', '4']
     sup_title = "{statistic} of {metric} distance"
-    titles = ["all sample sets", "sample set 0", "sample set 1", 
-            "sample set 2", "sample set 3", "sample set 4"]
-    qubits = [3, 6, 9, 12, 15, 18]
+    titles = ["all unitaries", "unitary 0", "unitary 1", 
+            "unitary 2", "unitary 3", "unitary 4"]
+    sranks = [1,2,3,4]
+
+    # determine colorbar limits
+    all_values = []
+    for i, set_key in enumerate(unitaries_to_plot):
+        if set_key == "all": all_values.extend(np.array(data[set_key][statistic]))
+        else:
+            all_values.extend(np.array(data[set_key]["all"][statistic]))
+    global_min = np.min(all_values)
+    global_max = np.max(all_values)
 
     # Create a 3x2 grid of subplots
-    for p in [1,2,3]:
-        fig, axes = plt.subplots(3, 2, figsize=(12, 15))
-        axes = axes.flatten()
-        for i, set_key in enumerate(sets_to_plot):
-            matrix = np.array(data[str(p)][set_key][statistic])
-            # Plotting the heatmap
-            sns.heatmap(matrix, annot=True, fmt=".2f", ax=axes[i], 
-                        xticklabels=qubits, yticklabels=qubits, cmap='viridis')
+    fig, axes = plt.subplots(3, 2, figsize=(12, 15))
+    axes = axes.flatten()
+    for i, set_key in enumerate(unitaries_to_plot):
+        if set_key == "all": matrix = np.array(data[set_key][statistic])
+        else:
+            matrix = np.array(data[set_key]["all"][statistic])
+        # Plotting the heatmap
+        sns.heatmap(matrix, annot=True, fmt=".2f", ax=axes[i], 
+                        xticklabels=sranks, yticklabels=sranks, cmap='viridis',
+                        vmin=global_min, vmax=global_max)
             
-            axes[i].set_title(titles[i])
-            axes[i].set_xlabel('Number of Qubits')
-            axes[i].set_ylabel('Number of Qubits')
+        axes[i].set_title(titles[i])
+        axes[i].set_xlabel('Schmidt Rank')
+        axes[i].set_ylabel('Schmidt Rank')
 
-        plt.tight_layout()
-        plt.savefig(HEATMAPS_DIR / f'QAOA_heatmap_{metric}_H{homology_dim}_p_{p}_{statistic}.pdf')
-        plt.close()
+    plt.tight_layout()
+    plt.savefig(HEATMAPS_DIR / f'QNN_{file_name}_heatmap_{metric}_H{homology_dim}_{statistic}.png')
+    plt.close()
 
 def plot_heatmaps_all_p_all_homologies(metric, statistic):
     # Load the matrix data
@@ -262,8 +325,8 @@ def plot_heatmaps_all_p_all_homologies(metric, statistic):
                 xticklabels=qubits, yticklabels=qubits, cmap='viridis')
                 
             axes[i].set_title(titles[i])
-            axes[i].set_xlabel('Number of Qubits')
-            axes[i].set_ylabel('Number of Qubits')
+            axes[i].set_xlabel('Schmidt Rank')
+            axes[i].set_ylabel('Schmidt Rank')
             i += 1
 
     plt.tight_layout()
@@ -272,13 +335,8 @@ def plot_heatmaps_all_p_all_homologies(metric, statistic):
     del data
 
 if __name__=="__main__":
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print(f"[INFO] {now}: Starting bottleneck, not transformed")
-    main(transformed=False, metric="bottleneck")
-    for metric in ["wasserstein"]:
-        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        print(f"[INFO] {now}: Starting {metric}, transformed")
-        main(transformed=True, metric=metric)
-        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        print(f"[INFO] {now}: Starting {metric}, not transformed")
-        main(transformed=False, metric=metric)
+    for transformed in [True, False]:
+        for hdim in [0,1]:
+            plot_heatmaps_all_unitaries(metric="bottleneck", homology_dim=hdim, statistic="mean", transformed=transformed)
+            plot_heatmaps_all_unitaries(metric="bottleneck", homology_dim=hdim, statistic="median", transformed=transformed)
+            plot_heatmaps_all_unitaries(metric="bottleneck", homology_dim=hdim, statistic="std", transformed=transformed)
