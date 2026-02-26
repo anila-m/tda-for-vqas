@@ -335,8 +335,11 @@ def plot_heatmaps_all_p_all_homologies(metric, statistic):
     del data
 
 if __name__=="__main__":
+   
+
     for transformed in [True, False]:
         for hdim in [0,1]:
-            plot_heatmaps_all_unitaries(metric="bottleneck", homology_dim=hdim, statistic="mean", transformed=transformed)
-            plot_heatmaps_all_unitaries(metric="bottleneck", homology_dim=hdim, statistic="median", transformed=transformed)
-            plot_heatmaps_all_unitaries(metric="bottleneck", homology_dim=hdim, statistic="std", transformed=transformed)
+            #compute_statistics_of_distance_set("wasserstein", homology_dim=hdim, transformed=transformed)
+            plot_heatmaps_all_unitaries(metric="wasserstein", homology_dim=hdim, statistic="mean", transformed=transformed)
+            plot_heatmaps_all_unitaries(metric="wasserstein", homology_dim=hdim, statistic="median", transformed=transformed)
+            plot_heatmaps_all_unitaries(metric="wasserstein", homology_dim=hdim, statistic="std", transformed=transformed)
