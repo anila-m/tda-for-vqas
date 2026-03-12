@@ -1,5 +1,7 @@
+from concurrent.futures import ProcessPoolExecutor, as_completed
 import json
 from datetime import datetime
+import os
 from pathlib import Path
 
 import networkx as nx
@@ -10,6 +12,8 @@ from ripser import ripser
 from persim import plot_diagrams
 from matplotlib import pyplot as plt
 
+from src.qaoa.utils import generate_timestamp_str
+
 backend = QulacsSimulator()
 scan_resolution = 101 # 31^2 approx 1000, 101 is too much for persistence
 num_runs=5
@@ -18,7 +22,7 @@ total_number_landscapes = 450
 dim = 1 # homology dimension
 
 # Directories
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 RESULTS_BASE_DIR = BASE_DIR / "experiment_results" / "QAOA"
 LANDSCAPE_DIR = BASE_DIR / "resources" / "QAOA" / "landscapes"
 
@@ -73,5 +77,6 @@ def main_experiment():
             print(f"[DONE] {i}/{total_number_landscapes} at {now}: {file_name}")
 
 
+
 if __name__ == "__main__":
-    main_experiment()
+    print(BASE_DIR)

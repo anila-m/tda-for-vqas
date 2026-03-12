@@ -7,7 +7,56 @@ import math
 
 from src.utils.metric_utils import *
 #from landscapes import *
-from data_utils import calc_hessian, sample_n_ball_uniform, get_hypersphere_volume
+from src.utils.data_utils import calc_hessian, sample_n_ball_uniform, get_hypersphere_volume
+
+
+def calc_TV_ASC_for_function(function, sample_points, lower_left, upper_right):
+    '''
+    Calculates all three metrics in one, to reduce computation time.
+    '''
+    sample_points = np.asarray(sample_points)
+    scalar_curvature = np.ndarray(sample_points.shape[0])
+    gradients = []
+    hessians = []
+
+    # iterate over all sample points 
+    for idx in range(sample_points.shape[0]):
+        # approximate dimsXdims sized hessian and dims sized vector of gradients for a specific point of the loss landscape
+        gradient_vector = sp.optimize.approx_fprime(sample_points[idx], function) # funktioniert mit Kostenfunktion
+        point_hessian = calc_hessian(function, sample_points[idx,:])
+        gradients.append(gradient_vector)
+        hessians.append(point_hessian)
+        # calculate scalar curvature from here
+        beta = 1 / (1 + np.linalg.norm(gradient_vector) ** 2)
+        left_term = beta * (
+            np.trace(point_hessian) ** 2
+            - np.trace(np.matmul(point_hessian, point_hessian))
+        )
+        right_inner = np.matmul(point_hessian, point_hessian) - np.trace(
+            point_hessian
+        ) * point_hessian
+        # order of matmul with gradient does not matter
+        right_term = (
+            2
+            * (beta**2)
+            * (np.matmul(np.matmul(gradient_vector.T, right_inner), gradient_vector))
+        )
+        point_curv = left_term + right_term
+        scalar_curvature[idx] = point_curv
+    grad_norm = np.linalg.norm(np.asarray(gradients), axis=1)
+    hess_norm = np.linalg.norm(np.asarray(hessians), axis=(1,2))
+    gradient_summary = [float(np.median(grad_norm)), float(np.mean(grad_norm)), float(np.min(grad_norm)), float(np.max(grad_norm))]
+    hessian_summary = [float(np.median(hess_norm)), float(np.mean(hess_norm)), float(np.min(hess_norm)), float(np.max(hess_norm))]
+    #calculate absolute scalar curvature (average absolute SC over entire landscape)
+    asc = np.mean(np.absolute(scalar_curvature))
+
+
+    # calculate Total Variation
+    volume = np.prod(upper_right-lower_left)
+    total_variation = np.sum(np.absolute(gradients))
+    total_variation = np.round(total_variation * volume, 3)
+    return asc, total_variation, gradient_summary, hessian_summary
+
 
 
 
@@ -195,6 +244,27 @@ def calc_scalar_curvature(landscape):
         scalar_curvature[idx] = point_curv
     return scalar_curvature
 
+# Alina: TDA for VQAs
+def calc_total_variation_for_function(function, sample_points, lower_left, upper_right):
+    """calculates the total variation of a landscape
+
+    Args:
+        landscape (array): n dimensional loss landscape as an n dimensional array
+    """
+    sample_points = np.asarray(sample_points)
+    gradients = []
+
+    # iterate over all sample points 
+    for idx in range(sample_points.shape[0]):
+        gradient_vector = sp.optimize.approx_fprime(sample_points[idx], function) 
+        gradients.append(gradient_vector)
+    
+    volume = np.prod(upper_right-lower_left)
+    total_variation = np.sum(np.absolute(gradients))
+    # normalize it by step size
+    #using dimensions -1 gives more stable results w.r.t. the number of samples per dimension
+    total_variation = total_variation * volume
+    return np.round(total_variation, 3)
 
 def calc_total_variation(landscape):
     """calculates the total variation of a landscape

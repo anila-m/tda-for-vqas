@@ -4,8 +4,8 @@ import torch
 from abc import abstractmethod
 import numpy as np
 import pennylane as qml
-import qnn.quantum_gates as qg
-from qnn.qnn import QNN
+import src.qnn.quantum_gates as qg
+from src.qnn.qnn import QNN
 
 #
 # QNN Ansatz implementations
