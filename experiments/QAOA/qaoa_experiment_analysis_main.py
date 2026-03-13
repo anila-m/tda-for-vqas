@@ -435,6 +435,94 @@ def compute_statistics_of_distance_per_num_qubits_and_set(metric, homology_dim):
     file = ANALYSIS_BASE_DIR / f"QAOA_{metric}_H{homology_dim}_statistics.json"
     file.write_text(json.dumps(result_dict, indent=4))
 
+def compute_statistics_of_distance_per_num_qubits_and_set(metric, homology_dim):
+    """
+    Compute mean, median, std of metric values between persistence diagrams of different qaoa instances. fixed: num_qubits
+    
+    :param metric: metric used to analyze persistence diagrams, can be bottleneck or wasserstein
+    """
+    assert metric in ["bottleneck", "wasserstein"]
+    assert homology_dim in [0,1]
+
+    result_dict = {"info": "results are matrices of values, lines and columns correspond to # qubits, i.e. [3,6,9,12,15,18]. Distances between same qubit counts only take distances between different runs of same qubit count into account.", "metric": metric, "homology dimension": homology_dim}
+    file = METRIC_BASE_DIR / f"QAOA_{metric}_H{homology_dim}.json"
+    all_values = json.load(open(file))
+    for num_qubits in [3,6,9,12,15,18]:
+        result_dict[num_qubits] = {} 
+        for set in range(5):
+            result_dict[num_qubits][set] = {"num_qubits": num_qubits, "set": set} 
+            curr_values = np.asarray(all_values[str(num_qubits)][str(set)]["distances matrix"])
+            means = np.zeros((6,6)) # TODO ab hier
+            medians = np.zeros((6,6))
+            stds = np.zeros((6,6))
+            for num_qubits_1 in range(6):
+                for num_qubits_2 in range(num_qubits_1,6):
+                    # Get distance values
+                    min_index1 = num_qubits_1*5
+                    max_index1 = min_index1+5
+                    min_index2 = num_qubits_2*5
+                    max_index2 = min_index2+5
+                    block1 = curr_values[min_index1:max_index1, min_index2:max_index2] 
+                    block2 = curr_values[min_index2:max_index2, min_index1:max_index1]
+
+                    # Flatten and combine into one pool of values
+                    combined_values = np.concatenate([block1.ravel(), block2.ravel()])
+                    if(num_qubits_1 == num_qubits_2):
+                        # remove zeros from combined values
+                        combined_values = combined_values[combined_values != 0]
+
+                    # Compute statistics
+                    means[num_qubits_1, num_qubits_2] = np.mean(combined_values)
+                    means[num_qubits_2, num_qubits_1] = np.mean(combined_values)
+                    medians[num_qubits_1, num_qubits_2] = np.median(combined_values)
+                    medians[num_qubits_2, num_qubits_1] = np.median(combined_values)
+                    stds[num_qubits_1, num_qubits_2] = np.std(combined_values)
+                    stds[num_qubits_2, num_qubits_1] = np.median(combined_values)
+            result_dict[p][set]["mean"] = means.tolist()
+            result_dict[p][set]["median"] = medians.tolist()
+            result_dict[p][set]["std"] = stds.tolist()
+    
+    # compute statistics over all sets
+    for p in [1,2,3]:
+        means = np.zeros((6,6))
+        medians = np.zeros((6,6))
+        stds = np.zeros((6,6))
+        result_dict[p]["all"] = {}
+        for num_qubits_1 in range(6):
+            for num_qubits_2 in range(num_qubits_1,6):
+                # Get distance matrix index values
+                min_index1 = num_qubits_1*5
+                max_index1 = min_index1+5
+                min_index2 = num_qubits_2*5
+                max_index2 = min_index2+5
+                values = []
+                for set in range(5):
+                    curr_values = np.asarray(all_values[str(p)][str(set)]["distances matrix"])
+            
+                    block1 = curr_values[min_index1:max_index1, min_index2:max_index2] 
+                    block2 = curr_values[min_index2:max_index2, min_index1:max_index1]
+
+                    # Flatten and combine into one pool of values
+                    combined_values = np.concatenate([block1.ravel(), block2.ravel()])
+                    if(num_qubits_1 == num_qubits_2):
+                        # remove zeros from combined values
+                        combined_values = combined_values[combined_values != 0]
+                    values.append(combined_values)
+                # Compute statistics
+                means[num_qubits_1, num_qubits_2] = np.mean(values)
+                means[num_qubits_2, num_qubits_1] = np.mean(values)
+                medians[num_qubits_1, num_qubits_2] = np.median(values)
+                medians[num_qubits_2, num_qubits_1] = np.median(values)
+                stds[num_qubits_1, num_qubits_2] = np.std(values)
+                stds[num_qubits_2, num_qubits_1] = np.std(values)
+        result_dict[p]["all"]["mean"] = means.tolist()
+        result_dict[p]["all"]["median"] = medians.tolist()
+        result_dict[p]["all"]["std"] = stds.tolist()
+    # save results
+    ANALYSIS_BASE_DIR.mkdir(exist_ok=True)
+    file = ANALYSIS_BASE_DIR / f"QAOA_{metric}_H{homology_dim}_statistics.json"
+    file.write_text(json.dumps(result_dict, indent=4))
+
 def plot_heatmaps_all_sets(metric, homology_dim, statistic):
     # Load the matrix data
     file = METRIC_BASE_DIR / f"QAOA_{metric}_H{homology_dim}_statistics.json"

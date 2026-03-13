@@ -1,0 +1,99 @@
+{
+    "info": "distances  between persistence diagrams of qaoa instances with one flipped and scaled coefficient in the hamiltonian. hamiltonian flip=true means the sign of the coefficient was flipped. ...flip=false means the coefficient was set to zero. scaled=true means the coefficient was set to +/-50. Distances were approximated using giotto tda. Persistence diagrams were computed using ripser (scikit tda). Keys are number of qubits. Distances are the average of two values (persistence diagram 1 -> 2 and 2 -> 1).",
+    "3": {
+        "num_qubits": 3,
+        "run": 1,
+        "target_term_idx": 0,
+        "hamiltonian flipped": true,
+        "p": 1,
+        "config id": 1,
+        "bottleneck": {
+            "H0": 0.9376025299359299,
+            "H1": 0.520492857631325
+        },
+        "wasserstein": {
+            "H0": 17.167810696338393,
+            "H1": 5.115269167002487
+        }
+    },
+    "6": {
+        "num_qubits": 6,
+        "run": 0,
+        "target_term_idx": 11,
+        "hamiltonian flipped": true,
+        "p": 1,
+        "config id": 5,
+        "bottleneck": {
+            "H0": 1.7987486729120974,
+            "H1": 0.36871966026956216
+        },
+        "wasserstein": {
+            "H0": 14.24489118754137,
+            "H1": 3.1984358660531207
+        }
+    },
+    "9": {
+        "num_qubits": 9,
+        "run": 0,
+        "target_term_idx": 0,
+        "hamiltonian flipped": true,
+        "p": 1,
+        "config id": 10,
+        "bottleneck": {
+            "H0": 2.229339093281851,
+            "H1": 0.20960285740557083
+        },
+        "wasserstein": {
+            "H0": 8.324633606056173,
+            "H1": 1.9349981443191202
+        }
+    },
+    "12": {
+        "num_qubits": 12,
+        "run": 0,
+        "target_term_idx": 7,
+        "hamiltonian flipped": true,
+        "p": 1,
+        "config id": 15,
+        "bottleneck": {
+            "H0": 2.1661635793074083,
+            "H1": 0.3549894048164788
+        },
+        "wasserstein": {
+            "H0": 11.422656423806245,
+            "H1": 1.8398788814898503
+        }
+    },
+    "15": {
+        "num_qubits": 15,
+        "run": 0,
+        "target_term_idx": 6,
+        "hamiltonian flipped": true,
+        "p": 1,
+        "config id": 20,
+        "bottleneck": {
+            "H0": 2.5525237937217753,
+            "H1": 0.20501238861606907
+        },
+        "wasserstein": {
+            "H0": 6.022326072911023,
+            "H1": 0.6630777773335292
+        }
+    },
+    "18": {
+        "num_qubits": 18,
+        "run": 0,
+        "target_term_idx": 1,
+        "hamiltonian flipped": true,
+        "p": 1,
+        "config id": 25,
+        "bottleneck": {
+            "H0": 2.1139615810101873,
+            "H1": 0.21693487844163428
+        },
+        "wasserstein": {
+            "H0": 5.354992609684868,
+            "H1": 0.7058323121663577
+        }
+    }
+}

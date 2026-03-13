@@ -12,6 +12,13 @@ from persim import plot_diagrams
 import seaborn as sns
 from orquestra.quantum.operators import get_pauli_strings, convert_dict_to_op
 import copy
+import networkx as nx
+from orquestra.integrations.qulacs.simulator import QulacsSimulator
+from orquestra.opt.problems.maxcut import MaxCut
+from orquestra.quantum.operators import PauliSum, PauliTerm
+
+from src.qaoa.data_generation import prepare_cost_function, generate_landscape
+from src.qaoa.hamiltonian_generation import assign_random_weights, assign_weight_for_term
 
 import numpy as np
 
@@ -27,10 +34,10 @@ timestamp = generate_timestamp_str()
 # Directories
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 RIPSER_BASE_DIR = BASE_DIR / "experiment_results" / "QAOA" / "ripser_results"
-ANALYSIS_BASE_DIR = BASE_DIR / "experiment_results" / "hamiltonian_experiment" / "analysis" / timestamp
+ANALYSIS_BASE_DIR = BASE_DIR / "experiment_results" / "hamiltonian_experiment" / "analysis" / "tmp"
 
-RESULTS_BASE_DIR = BASE_DIR / "experiment_results" / "hamiltonian_experiment" / timestamp
-HAMILTONIAN_RIPSER_BASE_DIR = BASE_DIR / "experiment_results" / "hamiltonian_experiment" / "ripser_results"
+RESULTS_BASE_DIR = BASE_DIR / "experiment_results" / "hamiltonian_experiment" / "tmp"
+HAMILTONIAN_RIPSER_BASE_DIR = BASE_DIR / "experiment_results" / "hamiltonian_experiment" / "tmp" / "ripser_results"
 
 
 def get_qaoa_ids(p, set, num_qubits = None):
@@ -140,7 +147,7 @@ def compare_all_hamiltonians():
         print(diff_matrix)
         print("-----------------------------------------------------------------")
 
-def find_and_flip_max_coeff(all_hams, flip=True):
+def find_and_flip_max_coeff(all_hams, flip=True, scaled=False):
     # if flip: flip sign of coefficient, else: set coefficient to zero
     if flip: factor = -1
     else: factor = 0
@@ -169,20 +176,42 @@ def find_and_flip_max_coeff(all_hams, flip=True):
     updated_ham = copy.deepcopy(all_hams[run])
     
     # change largest absolute coefficient
-    target_term = updated_ham["terms"][target_term_idx]
-    target_term["coefficient"]["real"] *= factor
-    target_term["coefficient"]["imag"] *= factor
+    if(scaled):
+        target_term = updated_ham["terms"][target_term_idx]
+        target_term["coefficient"]["real"] = factor*50
+        target_term["coefficient"]["imag"] = 0 #imaginary part is always 0
+    else:
+        target_term = updated_ham["terms"][target_term_idx]
+        target_term["coefficient"]["real"] *= factor
+        target_term["coefficient"]["imag"] *= factor
     
     return run, updated_ham, target_term_idx
 
-def compute_persistence_diagram_flipped_coefficient(flip=True):
+def generate_hamiltonians():
+    ham_config_dict = {}
+    for num_qubits in [3,6,9,12,16,18]:
+        G_complete_graph = nx.complete_graph(num_qubits)
+        weighted_MaxCut_hamil = MaxCut().get_hamiltonian(G_complete_graph)
+        weighted_MaxCut_hamil = assign_weight_for_term(
+            weighted_MaxCut_hamil, PauliTerm("I0"), 0
+        )
+        ham_file_label = f"ham_MAXCUT_weighted_-50_to_50_qubits_{num_qubits}"
+        hamiltonian = assign_random_weights(weighted_MaxCut_hamil, range=[-50,50])
+        ham_config_dict[ham_file_label] = {
+                "num_qubits": num_qubits,
+                "ham_file_label": ham_file_label,
+                "weight_limits": [-50, 50],
+                "hamiltonian": hamiltonian
+            }
+
+def compute_persistence_diagram_flipped_coefficient(flip=True, scaled=False):
     dim = 1
-    for num_qubits in [15,18 ]:
+    for num_qubits in [15,18]:
         all_hams = get_all_hamiltonians(num_qubits=num_qubits)
 
         # get new hamiltonian
-        run, flipped_ham, target_term_idx = find_and_flip_max_coeff(all_hams=all_hams, flip=flip)
-        result_dict = {"num_qubits": num_qubits, "run": run, "target_term_idx": target_term_idx, "hamiltonian flipped": flip, "new hamiltonian": flipped_ham}
+        run, flipped_ham, target_term_idx = find_and_flip_max_coeff(all_hams=all_hams, flip=flip, scaled=scaled)
+        result_dict = {"num_qubits": num_qubits, "run": run, "target_term_idx": target_term_idx, "hamiltonian flipped": flip, "scaled coefficient (to +/-50)": scaled, "new hamiltonian": flipped_ham}
 
         # compute loss landscape
         ham = convert_dict_to_op(flipped_ham)
@@ -238,8 +267,8 @@ def compute_persistence_diagram_flipped_coefficient(flip=True):
         result_dict["persistence diagram"] = ripser_dict
 
         # save ripser result, including landscape, etc.
-        file_name = f"persistence_qaoa_{id}_flipped_{flip}_not_transformed_H{dim}.json"
-        file_name_plot = f"persistence_diagram_qaoa_{id}_flipped_{flip}_not_transformed_H{dim}.png"
+        file_name = f"persistence_qaoa_{id}_flipped_{flip}_scaled50_{scaled}_not_transformed_H{dim}.json"
+        file_name_plot = f"persistence_diagram_qaoa_{id}_flipped_{flip}_scaled50_{scaled}_not_transformed_H{dim}.png"
         ripser_path = RESULTS_BASE_DIR / "ripser_results" 
         RESULTS_BASE_DIR.mkdir(exist_ok=True)
         ripser_path.mkdir(exist_ok=True)
@@ -255,7 +284,7 @@ def compute_persistence_diagram_flipped_coefficient(flip=True):
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"[DONE] {num_qubits} qubits at {now}: {file_name}")
 
-def compute_metrics_between_persistence_diagrams(flip=True):
+def compute_metrics_between_persistence_diagrams(flip=True, scaled=False):
     """
 
     :param metric: string, "bottleneck" or "wasserstein". Metric between Persistence diagrams.
@@ -276,8 +305,12 @@ def compute_metrics_between_persistence_diagrams(flip=True):
         d1 = [np.asarray(v) for v in d]
 
         # get persistence diagram of flipped hamiltonian
-        file_name2 = f"persistence_qaoa_{ids[i]}_flipped_{flip}_not_transformed_H1.json"
-        file2 = HAMILTONIAN_RIPSER_BASE_DIR / file_name2
+        if scaled:
+            file_name2 = f"persistence_qaoa_{ids[i]}_flipped_{flip}_scaled50_{scaled}_not_transformed_H1.json"
+            file2 =BASE_DIR / "experiment_results" / "hamiltonian_experiment" / "scaled50" / "ripser_results" / file_name2
+        else:
+            file_name2 = f"persistence_qaoa_{ids[i]}_flipped_{flip}_not_transformed_H1.json"
+            file2 = HAMILTONIAN_RIPSER_BASE_DIR / file_name2
         r_dict2 = json.load(open(file2))
         d = r_dict2["persistence diagram"]["dgms"]
         d2 = [np.asarray(v) for v in d]
@@ -305,18 +338,19 @@ def compute_metrics_between_persistence_diagrams(flip=True):
         loss = np.asarray(r_dict1["landscape"])
         loss_flipped = np.asarray(r_dict2["landscape"])
         plot_loss_landscape_interpolated(loss, ANALYSIS_BASE_DIR, f"loss_landscape_original_qaoa_{ids[i]}_interpolated")
-        plot_loss_landscape_interpolated(loss_flipped, ANALYSIS_BASE_DIR, f"loss_landscape_flipped_qaoa_{ids[i]}_interpolated")
+        plot_loss_landscape_interpolated(loss_flipped, ANALYSIS_BASE_DIR, f"loss_landscape_flipped_{flip}_scaled50_{scaled}_qaoa_{ids[i]}_interpolated")
 
         i += 1
         now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"[DONE] {now}: {num_qubits} qubits")
         
     # save results
-    results_file_name =  f"flipped_hamiltonian_metric_anaylsis.json"
+    results_file_name =  f"flipped_{flip}_scaled50_{scaled}_hamiltonian_metric_anaylsis.json"
     
     results_file = ANALYSIS_BASE_DIR / results_file_name
     results_file.write_text(json.dumps(result_dict, indent=4))
 
 
 if __name__=="__main__":
-    compute_metrics_between_persistence_diagrams()
+    #compute_persistence_diagram_flipped_coefficient(True, True)
+    compute_metrics_between_persistence_diagrams(scaled=True)

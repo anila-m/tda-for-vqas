@@ -19,19 +19,22 @@ from src.qnn.qnn_cost_func import CostFunction
 from src.utils.metrics import calc_TV_ASC_for_function
 from src.utils.sampling_utils import get_latin_hypercube_samples
 from orquestra.quantum.operators import get_pauli_strings, convert_dict_to_op
+import ast
 
 # Directories
 BASE_DIR = Path(__file__).resolve().parent.parent
 QAOA_LANDSCAPES = BASE_DIR / "experiment_results" / "QAOA" / "ripser_results"
+QAOA_HAM_LANDSCAPES = BASE_DIR / "experiment_results" / "hamiltonian_experiment" / "ripser_results"
 QNN_not_trans_LANDSCAPES = BASE_DIR / "experiment_results" / "QNN" / "not_transformed" / "ripser_results"
 QNN_trans_LANDSCAPES = BASE_DIR / "experiment_results" / "QNN" / "transformed_50_100" / "ripser_results"
 QAOA_RESULTS = BASE_DIR / "experiment_results" / "QAOA"
+QAOA_HAM_RESULTS = BASE_DIR / "experiment_results" / "hamiltonian_experiment" 
 QNN_not_trans_RESULTS = BASE_DIR / "experiment_results" / "QNN" / "not_transformed"
 QNN_trans_RESULTS = BASE_DIR / "experiment_results" / "QNN" / "transformed_50_100"
 
-max_number_of_ids = {"QAOA": 450, "QNN not transformed": 500, "QNN transformed": 500}
-landscape_dirs = {"QAOA": QAOA_LANDSCAPES, "QNN not transformed": QNN_not_trans_LANDSCAPES, "QNN transformed": QNN_trans_LANDSCAPES}
-results_dirs = {"QAOA": QAOA_RESULTS, "QNN not transformed": QNN_not_trans_RESULTS, "QNN transformed": QNN_trans_RESULTS}
+max_number_of_ids = {"QAOA": 450, "QNN not transformed": 500, "QNN transformed": 500, "QAOA hamiltonian": 6}
+landscape_dirs = {"QAOA": QAOA_LANDSCAPES, "QNN not transformed": QNN_not_trans_LANDSCAPES, "QNN transformed": QNN_trans_LANDSCAPES, "QAOA hamiltonian": QAOA_HAM_LANDSCAPES}
+results_dirs = {"QAOA": QAOA_RESULTS, "QNN not transformed": QNN_not_trans_RESULTS, "QNN transformed": QNN_trans_RESULTS, "QAOA hamiltonian": QAOA_HAM_RESULTS}
 
 
 backend = QulacsSimulator()
@@ -46,7 +49,10 @@ def compute_roughness_metrics_per_landscape(file, vqa_type):
     landscape = np.asarray(dict["landscape"])
     
     if "QAOA" in vqa_type:
-        hamiltonian = convert_dict_to_op(dict["hamiltonian"])
+        if "hamiltonian" in dict:
+            hamiltonian = convert_dict_to_op(dict["hamiltonian"])
+        elif "new hamiltonian" in dict:
+            hamiltonian = convert_dict_to_op(dict["new hamiltonian"])
         loss_func = prepare_cost_function(hamiltonian, backend)
         num_qubits = dict["num_qubits"]
         p = dict["p"]
@@ -55,8 +61,8 @@ def compute_roughness_metrics_per_landscape(file, vqa_type):
         id = dict["config id"]
     elif "QNN" in vqa_type:
         num_qubits = 2
-        unitary = unitary = np.fromstring(dict["unitary"],dtype=complex,sep=',').reshape(-1,4)
-        x = np.fromstring(dict["databatch"],dtype=complex,sep=',').reshape(-1,4,4)
+        unitary = np.array(ast.literal_eval(dict["unitary"]))
+        x = np.array(ast.literal_eval(dict["databatch"]))
         loss_func = CostFunction(num_qubits=num_qubits, unitary=unitary, inputs=x)
         lower_left = np.zeros(6)
         upper_right = np.ones(6)*2*np.pi
@@ -78,7 +84,8 @@ def compute_roughness_metrics_per_landscape(file, vqa_type):
                             }
                 }
     return id, metrics
-    
+
+ 
     
 
 def main_roughness_metrics_experiment(vqa_type):
@@ -93,8 +100,10 @@ def main_roughness_metrics_experiment(vqa_type):
     cpu_count = os.cpu_count() 
     print(cpu_count)
     assert cpu_count is not None
+    # for file in landscape_directory.iterdir():
+    #     compute_roughness_metrics_per_landscape(file, vqa_type)
     #compute same-dimensional landscapes concurrently
-    with ProcessPoolExecutor(max_workers=cpu_count-1) as exe:
+    with ProcessPoolExecutor(max_workers=cpu_count) as exe:
         futures = [exe.submit(compute_roughness_metrics_per_landscape,file, vqa_type) for file in landscape_directory.iterdir()]            
         # await results & save them:
         for future in as_completed(futures):
@@ -114,4 +123,5 @@ def main_roughness_metrics_experiment(vqa_type):
 if __name__ == "__main__":
     #main_roughness_metrics_experiment("QAOA")
     #test_gradient()
-    main_roughness_metrics_experiment(vqa_type="QAOA")
+    #main_roughness_metrics_experiment(vqa_type="QAOA")
+    main_roughness_metrics_experiment(vqa_type="QAOA hamiltonian")
