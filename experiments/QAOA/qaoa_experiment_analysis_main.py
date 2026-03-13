@@ -38,8 +38,10 @@ def get_qaoa_ids(p, set, num_qubits = None):
     if num_qubits == None:
         id_list = [(p-1)*(5*6*5)+set*(6*5)+i for i in range(30)]
     else:
-        id_list = [(p-1)*(5*6*5)+set*(6*5)+(num_qubits//3-1)*5+run for run in range(5)]
+        id_list = [(p_value-1)*(5*6*5)+set*(6*5)+(num_qubits//3-1)*5+run for p_value in range(1,4) for run in range(5)]
     return id_list
+
+
 
 
 def compute_distances_between_persistence_diagrams(num_qubits1, num_qubits2, p, set, h_dim, metric="bottleneck", library="giotto"):
@@ -162,6 +164,27 @@ def compute_distance_for_all_using_giotto(p, set, metric = "bottleneck"):
     del giotto_diagrams
     del persistence_diagram_list
     return dist_matrices
+
+def compute_distance_for_all_using_giotto_variable_p(num_qubits, set, metric = "bottleneck"):
+    assert num_qubits in [3,6,9,12,15,18]
+    assert set in range(5)
+    id_list = get_qaoa_ids(p=1, set=set, num_qubits=num_qubits)
+    
+    persistence_diagram_list = []
+    for id in id_list:
+        file = RIPSER_BASE_DIR / f"persistence_qaoa_{id}_not_transformed_H1.json"
+        r_dict = json.load(open(file))
+        d = r_dict["persistence diagram"]["dgms"]
+        dgm = [np.asarray(v) for v in d]
+        persistence_diagram_list.append(dgm)
+    giotto_diagrams = ripser_list_to_giotto(persistence_diagram_list)
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(f"[INFO] {now}: Starting num_qubits={num_qubits}, set={set} ...")
+    PD = PairwiseDistance(metric = metric, n_jobs=cpu_count-2, order=None)
+    dist_matrices = PD.fit_transform(giotto_diagrams)
+    del giotto_diagrams
+    del persistence_diagram_list
+    return dist_matrices
     
 def main():
     metric = "wasserstein"
@@ -181,6 +204,26 @@ def main():
     ANALYSIS_BASE_DIR.mkdir(exist_ok=True)
     file_H0 = ANALYSIS_BASE_DIR / f"QAOA_{metric}_H0.json"
     file_H1 = ANALYSIS_BASE_DIR / f"QAOA_{metric}_H1.json"
+    file_H0.write_text(json.dumps(dist_dict_H0, indent=4))
+    file_H1.write_text(json.dumps(dist_dict_H1, indent=4))
+
+def main_variable_p(metric = "wasserstein"):
+    dist_dict_H0 = {"info": f"{metric} distance between qaoa persistence diagrams (homology dimension 0) per p and sample set.", "source files": str(RIPSER_BASE_DIR), "homology dimension": 0, "python library": f"giotto TDA, approximation of {metric} distance"}
+    dist_dict_H1 = {"info": f"{metric} distance between qaoa persistence diagrams (homology dimension 1) per p and sample set.", "source files": str(RIPSER_BASE_DIR), "homology dimension": 1, "python library": f"giotto TDA, approximation of {metric} distance"}
+    for num_qubits in [3,6,9,12,15,18]:
+        dist_dict_H0[num_qubits] = {}
+        dist_dict_H1[num_qubits] = {}
+        for set in range(5):
+            id_list = get_qaoa_ids(p=1, set=set, num_qubits=num_qubits)
+            distance_matrices = compute_distance_for_all_using_giotto_variable_p(num_qubits, set, metric=metric)
+            dist_dict_H0[num_qubits][set] = {"num_qubits": num_qubits, "set": set, "id list": id_list, "distances matrix": distance_matrices[:,:,0].tolist()}
+            dist_dict_H1[num_qubits][set] = {"num_qubits": num_qubits, "set": set, "id list": id_list, "distances matrix": distance_matrices[:,:,1].tolist()}
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print(f"[DONE] {now}: num_qubits={num_qubits}, set={set}")
+    # save results
+    ANALYSIS_BASE_DIR.mkdir(exist_ok=True)
+    file_H0 = ANALYSIS_BASE_DIR / f"QAOA_{metric}_variable_p_H0.json"
+    file_H1 = ANALYSIS_BASE_DIR / f"QAOA_{metric}_variable_p_H1.json"
     file_H0.write_text(json.dumps(dist_dict_H0, indent=4))
     file_H1.write_text(json.dumps(dist_dict_H1, indent=4))
 
@@ -234,6 +277,94 @@ def compute_statistics_of_distance_per_p_and_set(metric, homology_dim):
             result_dict[p][set] = {"p": p, "set": set} 
             curr_values = np.asarray(all_values[str(p)][str(set)]["distances matrix"])
             means = np.zeros((6,6))
+            medians = np.zeros((6,6))
+            stds = np.zeros((6,6))
+            for num_qubits_1 in range(6):
+                for num_qubits_2 in range(num_qubits_1,6):
+                    # Get distance values
+                    min_index1 = num_qubits_1*5
+                    max_index1 = min_index1+5
+                    min_index2 = num_qubits_2*5
+                    max_index2 = min_index2+5
+                    block1 = curr_values[min_index1:max_index1, min_index2:max_index2] 
+                    block2 = curr_values[min_index2:max_index2, min_index1:max_index1]
+
+                    # Flatten and combine into one pool of values
+                    combined_values = np.concatenate([block1.ravel(), block2.ravel()])
+                    if(num_qubits_1 == num_qubits_2):
+                        # remove zeros from combined values
+                        combined_values = combined_values[combined_values != 0]
+
+                    # Compute statistics
+                    means[num_qubits_1, num_qubits_2] = np.mean(combined_values)
+                    means[num_qubits_2, num_qubits_1] = np.mean(combined_values)
+                    medians[num_qubits_1, num_qubits_2] = np.median(combined_values)
+                    medians[num_qubits_2, num_qubits_1] = np.median(combined_values)
+                    stds[num_qubits_1, num_qubits_2] = np.std(combined_values)
+                    stds[num_qubits_2, num_qubits_1] = np.median(combined_values)
+            result_dict[p][set]["mean"] = means.tolist()
+            result_dict[p][set]["median"] = medians.tolist()
+            result_dict[p][set]["std"] = stds.tolist()
+    
+    # compute statistics over all sets
+    for p in [1,2,3]:
+        means = np.zeros((6,6))
+        medians = np.zeros((6,6))
+        stds = np.zeros((6,6))
+        result_dict[p]["all"] = {}
+        for num_qubits_1 in range(6):
+            for num_qubits_2 in range(num_qubits_1,6):
+                # Get distance matrix index values
+                min_index1 = num_qubits_1*5
+                max_index1 = min_index1+5
+                min_index2 = num_qubits_2*5
+                max_index2 = min_index2+5
+                values = []
+                for set in range(5):
+                    curr_values = np.asarray(all_values[str(p)][str(set)]["distances matrix"])
+            
+                    block1 = curr_values[min_index1:max_index1, min_index2:max_index2] 
+                    block2 = curr_values[min_index2:max_index2, min_index1:max_index1]
+
+                    # Flatten and combine into one pool of values
+                    combined_values = np.concatenate([block1.ravel(), block2.ravel()])
+                    if(num_qubits_1 == num_qubits_2):
+                        # remove zeros from combined values
+                        combined_values = combined_values[combined_values != 0]
+                    values.append(combined_values)
+                # Compute statistics
+                means[num_qubits_1, num_qubits_2] = np.mean(values)
+                means[num_qubits_2, num_qubits_1] = np.mean(values)
+                medians[num_qubits_1, num_qubits_2] = np.median(values)
+                medians[num_qubits_2, num_qubits_1] = np.median(values)
+                stds[num_qubits_1, num_qubits_2] = np.std(values)
+                stds[num_qubits_2, num_qubits_1] = np.std(values)
+        result_dict[p]["all"]["mean"] = means.tolist()
+        result_dict[p]["all"]["median"] = medians.tolist()
+        result_dict[p]["all"]["std"] = stds.tolist()
+    # save results
+    ANALYSIS_BASE_DIR.mkdir(exist_ok=True)
+    file = ANALYSIS_BASE_DIR / f"QAOA_{metric}_H{homology_dim}_statistics.json"
+    file.write_text(json.dumps(result_dict, indent=4))
+
+def compute_statistics_of_distance_per_num_qubits_and_set(metric, homology_dim):
+    """
+    Compute mean, median, std of metric values between persistence diagrams of different qaoa instances. fixed: num_qubits
+    
+    :param metric: metric used to analyze persistence diagrams, can be bottleneck or wasserstein
+    """
+    assert metric in ["bottleneck", "wasserstein"]
+    assert homology_dim in [0,1]
+
+    result_dict = {"info": "results are matrices of values, lines and columns correspond to # qubits, i.e. [3,6,9,12,15,18]. Distances between same qubit counts only take distances between different runs of same qubit count into account.", "metric": metric, "homology dimension": homology_dim}
+    file = METRIC_BASE_DIR / f"QAOA_{metric}_H{homology_dim}.json"
+    all_values = json.load(open(file))
+    for num_qubits in [3,6,9,12,15,18]:
+        result_dict[num_qubits] = {} 
+        for set in range(5):
+            result_dict[num_qubits][set] = {"num_qubits": num_qubits, "set": set} 
+            curr_values = np.asarray(all_values[str(num_qubits)][str(set)]["distances matrix"])
+            means = np.zeros((6,6)) # TODO ab hier
             medians = np.zeros((6,6))
             stds = np.zeros((6,6))
             for num_qubits_1 in range(6):
@@ -376,7 +507,8 @@ def plot_heatmaps_all_p_all_homologies(metric, statistic):
     del data
 
 if __name__=="__main__":
-    print("bla")
+    main_variable_p(metric="wasserstein")
+    main_variable_p(metric="bottleneck")
     #main()
     # for statistic in ["mean", "std", "median"]:
     #     for metric in ["bottleneck", "wasserstein"]:
