@@ -39,6 +39,20 @@ ANALYSIS_BASE_DIR = BASE_DIR / "experiment_results" / "hamiltonian_experiment" /
 RESULTS_BASE_DIR = BASE_DIR / "experiment_results" / "hamiltonian_experiment" / "tmp"
 HAMILTONIAN_RIPSER_BASE_DIR = BASE_DIR / "experiment_results" / "hamiltonian_experiment" / "tmp" / "ripser_results"
 
+SCALED_HAM_BASE_DIR = BASE_DIR / "experiment_results" /"hamiltonian_experiment"/"scaled50"/"ripser_results"
+
+def print_hamiltonians():
+    for file in SCALED_HAM_BASE_DIR.iterdir():
+        dict = json.load(open(file))
+        id = dict["config id"]
+        target_idx = dict["target_term_idx"]
+        hamiltonian = dict["new hamiltonian"]
+        print(f"ID: {id}")
+        print(f"target term index: {target_idx}")
+        print(f"new hamiltonian: {convert_dict_to_op(hamiltonian)}")
+        print("          ")
+        
+
 
 def get_qaoa_ids(p, set, num_qubits = None):
     """
@@ -353,4 +367,5 @@ def compute_metrics_between_persistence_diagrams(flip=True, scaled=False):
 
 if __name__=="__main__":
     #compute_persistence_diagram_flipped_coefficient(True, True)
-    compute_metrics_between_persistence_diagrams(scaled=True)
+    #compute_metrics_between_persistence_diagrams(scaled=True)
+    print_hamiltonians()
