@@ -45,9 +45,9 @@ max_gamma=np.pi
 max_beta=np.pi/2
 min_gamma= - np.pi #-3.05
 min_beta= - np.pi/2 #-1.5
-qaoa_grid_size = [5,5,5]
+#qaoa_grid_size = [5,5,5]
 #qaoa_grid_size = [1000, 33, 10] # grid sizes for QAOA, keys are p values, all grids have roughly 1M grid points
-#qaoa_grid_size = [707, 26, 9] # lower grid sized for QAPA, all grids have roughly 500K grid points
+qaoa_grid_size = [707, 26, 9] # lower grid sized for QAPA, all grids have roughly 500K grid points
 cpu_count = os.cpu_count() 
 
 def get_qaoa_ids(p=None, num_qubits = None):
@@ -231,7 +231,7 @@ def compare_roughness_metrics_for_qaoa(roughness_metric):
 
 def compute_roughness_metrics_for_QAOA_file(id):
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print(f"[START] {now}: {id}")
+    print(f"[START] {now}: QAOA ID {id}")
     file = QAOA_LANDSCAPES / f"persistence_qaoa_{id}_not_transformed_H1.json"
     qaoa_dict = json.load(open(file))
     sample_set = qaoa_dict["sample_set"]
