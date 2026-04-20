@@ -4,7 +4,7 @@ import itertools
 import json
 from pathlib import Path
 from persim import bottleneck, bottleneck_matching
-from gtda.diagrams import PairwiseDistance
+from gtda.diagrams import PairwiseDistance, PersistenceLandscape, PersistenceImage
 import os
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -21,10 +21,11 @@ timestamp = generate_timestamp_str()
 # Directories
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 RIPSER_BASE_DIR = BASE_DIR / "experiment_results" / "QAOA" / "ripser_results"
+PERS_LANDSCAPE_BASE_DIR = BASE_DIR / "experiment_results" / "QAOA" / "persistence_landscapes_data"
 ANALYSIS_BASE_DIR = BASE_DIR / "experiment_results" / "QAOA" / "analysis" / timestamp
 METRIC_BASE_DIR = BASE_DIR / "experiment_results" / "QAOA" / "analysis" 
 
-def get_qaoa_ids(p, set, num_qubits = None):
+def get_qaoa_ids(p, set = None, num_qubits = None):
     """
     Determines correct QAOA experiment ID list corresponding to number of qubits (if given), p and sample set number
     
@@ -36,7 +37,10 @@ def get_qaoa_ids(p, set, num_qubits = None):
     assert num_qubits in [3,6,9,12,15,18, None]
     assert set in range(5)
     if num_qubits == None:
-        id_list = [(p-1)*(5*6*5)+set*(6*5)+i for i in range(30)]
+        if set == None:
+            id_list = [(p-1)*(5*6*5)+set*(6*5)+i for i in range(30) for set in range(5)]
+        else:
+            id_list = [(p-1)*(5*6*5)+set*(6*5)+i for i in range(30)]
     else:
         id_list = [(p_value-1)*(5*6*5)+set*(6*5)+(num_qubits//3-1)*5+run for p_value in range(1,4) for run in range(5)]
     return id_list
@@ -186,8 +190,7 @@ def compute_distance_for_all_using_giotto_variable_p(num_qubits, set, metric = "
     del persistence_diagram_list
     return dist_matrices
     
-def main():
-    metric = "wasserstein"
+def main(metric = "wasserstein"):
     dist_dict_H0 = {"info": f"{metric} distance between qaoa persistence diagrams (homology dimension 0) per p and sample set.", "source files": str(RIPSER_BASE_DIR), "homology dimension": 0, "python library": f"giotto TDA, approximation of {metric} distance"}
     dist_dict_H1 = {"info": f"{metric} distance between qaoa persistence diagrams (homology dimension 1) per p and sample set.", "source files": str(RIPSER_BASE_DIR), "homology dimension": 1, "python library": f"giotto TDA, approximation of {metric} distance"}
     for p in [1, 2, 3]:
@@ -265,7 +268,7 @@ def compute_statistics_of_distance_per_p_and_set(metric, homology_dim):
     
     :param metric: metric used to analyze persistence diagrams, can be bottleneck or wasserstein
     """
-    assert metric in ["bottleneck", "wasserstein"]
+    assert metric in ["bottleneck", "wasserstein", "landscape"]
     assert homology_dim in [0,1]
 
     result_dict = {"info": "results are matrices of values, lines and columns correspond to # qubits, i.e. [3,6,9,12,15,18]. Distances between same qubit counts only take distances between different runs of same qubit count into account.", "metric": metric, "homology dimension": homology_dim}
@@ -353,7 +356,7 @@ def compute_statistics_of_distance_per_num_qubits_and_set(metric, homology_dim):
     
     :param metric: metric used to analyze persistence diagrams, can be bottleneck or wasserstein
     """
-    assert metric in ["bottleneck", "wasserstein"]
+    assert metric in ["bottleneck", "wasserstein", "landscape"]
     assert homology_dim in [0,1]
 
     result_dict = {"info": "results are matrices of values, lines and columns correspond to # qubits, i.e. [3,6,9,12,15,18]. Distances between same qubit counts only take distances between different runs of same qubit count into account.", "metric": metric, "homology dimension": homology_dim}
@@ -506,9 +509,205 @@ def plot_heatmaps_all_p_all_homologies(metric, statistic):
     plt.close()
     del data
 
+
+############## PERSISTENCE LANDSCAPES ####################
+
+def plot_persistence_landscapes():
+    # for every qaoa instance:
+    PERS_LANDSCAPE_PLOT_DIR = BASE_DIR / "experiment_results" / "QAOA" / "persistence_landscapes"
+    PERS_LANDSCAPE_PLOT_DIR.mkdir(exist_ok=True)
+    PERS_LANDSCAPE_DATA_DIR = BASE_DIR / "experiment_results" / "QAOA" / "persistence_landscapes_data"
+    PERS_LANDSCAPE_DATA_DIR.mkdir(exist_ok=True)
+    all_instances = RIPSER_BASE_DIR.iterdir()
+    i=0
+    for file in all_instances:
+        with open(file) as f:
+            # load ripser result
+            qaoa_dict =  json.load(f)
+            id = qaoa_dict["config id"]
+            # get persistence diagram points
+            d = qaoa_dict["persistence diagram"]["dgms"]
+            ripser_diagram = [np.asarray(v) for v in d]
+
+            # convert to giotto-friendly data format
+            giotto_diagram = ripser_list_to_giotto([ripser_diagram]) # takes list of diagrams and returns list --> first element
+
+            # compute persistence landscape using giotto
+            PL = PersistenceLandscape(n_jobs=cpu_count-1)
+            pers_landscape = PL.fit_transform(giotto_diagram)
+            fig = PL.plot(pers_landscape)
+
+            result_dict = {"config id": id, 
+                           "num_qubits": qaoa_dict["num_qubits"],
+                            "run": qaoa_dict["run"],
+                            "p": qaoa_dict["p"],
+                            "sample_set": qaoa_dict["sample_set"],
+                            "persistence_landscape": pers_landscape.tolist()}
+            
+            
+            title = f"persistence_landscape_qaoa_{id}"
+            t_plot = f"{title}.pdf"
+            t_data = f"{title}.json"
+
+            # save plot + persistence landscape plot info
+            fig.write_image(PERS_LANDSCAPE_PLOT_DIR / t_plot)
+            res_file = PERS_LANDSCAPE_DATA_DIR / t_data
+            res_file.write_text(json.dumps(result_dict, indent=4))
+
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print(f"[INFO] {now}: {id} done")
+
+
+def plot_persistence_images():
+    # for every qaoa instance:
+    PERS_LANDSCAPE_PLOT_DIR = BASE_DIR / "experiment_results" / "QAOA" / "persistence_images"
+    PERS_LANDSCAPE_PLOT_DIR.mkdir(exist_ok=True)
+    PERS_LANDSCAPE_DATA_DIR = BASE_DIR / "experiment_results" / "QAOA" / "persistence_images_data"
+    PERS_LANDSCAPE_DATA_DIR.mkdir(exist_ok=True)
+    all_instances = RIPSER_BASE_DIR.iterdir()
+    i=0
+    for file in all_instances:
+        with open(file) as f:
+            # load ripser result
+            qaoa_dict =  json.load(f)
+            id = qaoa_dict["config id"]
+            # get persistence diagram points
+            d = qaoa_dict["persistence diagram"]["dgms"]
+            ripser_diagram = [np.asarray(v) for v in d]
+
+            # convert to giotto-friendly data format
+            giotto_diagram = ripser_list_to_giotto([ripser_diagram]) # takes list of diagrams and returns list --> first element
+
+            # compute persistence landscape using giotto
+            PL = PersistenceImage(n_jobs=cpu_count-1)
+            pers_landscape = PL.fit_transform(giotto_diagram)
+
+            fig0 = PL.plot(pers_landscape, homology_dimension_idx=0)
+            fig1 = PL.plot(pers_landscape, homology_dimension_idx=1)
+
+            result_dict = {"config id": id, 
+                           "num_qubits": qaoa_dict["num_qubits"],
+                            "run": qaoa_dict["run"],
+                            "p": qaoa_dict["p"],
+                            "sample_set": qaoa_dict["sample_set"],
+                            "persistence_images": pers_landscape.tolist()}
+            
+            
+            title = f"persistence_image_qaoa_{id}"
+            t_plot0 = f"{title}_H0.pdf"
+            t_plot1 = f"{title}_H1.pdf"
+            t_data = f"{title}.json"
+
+            # save plot + persistence landscape plot info
+            fig0.write_image(PERS_LANDSCAPE_PLOT_DIR / t_plot0)
+            fig1.write_image(PERS_LANDSCAPE_PLOT_DIR / t_plot1)
+            res_file = PERS_LANDSCAPE_DATA_DIR / t_data
+            res_file.write_text(json.dumps(result_dict, indent=4))
+
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print(f"[INFO] {now}: {id} done")
+
+# ab hier löschen
+def compute_landscape_distance_for_all_using_giotto(p, set):
+    assert p in [1,2,3]
+    assert set in range(5)
+    id_list = get_qaoa_ids(p, set)
+    
+    persistence_landscape_list = []
+    for id in id_list:
+        file = PERS_LANDSCAPE_BASE_DIR / f"persistence_landscape_qaoa_{id}.json"
+        r_dict = json.load(open(file))
+        d = r_dict["persistence_landscape"][0]
+        dgm = np.asarray(d)
+        persistence_landscape_list.append(dgm)
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(f"[INFO] {now}: Starting p={p}, set={set} ...")
+    PD = PairwiseDistance(metric = "landscape", n_jobs=cpu_count-2, order=None)
+    dist_matrices = PD.fit_transform(persistence_landscape_list)
+    del giotto_diagrams
+    del persistence_landscape_list
+    return dist_matrices
+
+def compute_landscape_distance_for_all_using_giotto_variable_p(num_qubits, set):
+    assert num_qubits in [3,6,9,12,15,18]
+    assert set in range(5)
+    id_list = get_qaoa_ids(p=1, set=set, num_qubits=num_qubits)
+    
+    persistence_landscape_list = []
+    for id in id_list:
+        file = PERS_LANDSCAPE_BASE_DIR / f"persistence_landscape_qaoa_{id}.json"
+        r_dict = json.load(open(file))
+        d = r_dict["persistence_landscape"][0]
+        dgm = np.asarray(d)
+        persistence_landscape_list.append(dgm)
+        print(dgm.shape)
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    print(f"[INFO] {now}: Starting num_qubits={num_qubits}, set={set} ...")
+    PD = PairwiseDistance(metric = "landscape", n_jobs=cpu_count-2, order=None)
+    dist_matrices = PD.fit_transform(persistence_landscape_list)
+    del giotto_diagrams
+    del persistence_landscape_list
+    return dist_matrices
+    
+def landscape_main():
+    metric = "landscape"
+    dist_dict_H0 = {"info": f"{metric} distance between qaoa persistence diagrams (homology dimension 0) per p and sample set.", "source files": str(RIPSER_BASE_DIR), "homology dimension": 0, "python library": f"giotto TDA, approximation of {metric} distance"}
+    dist_dict_H1 = {"info": f"{metric} distance between qaoa persistence diagrams (homology dimension 1) per p and sample set.", "source files": str(RIPSER_BASE_DIR), "homology dimension": 1, "python library": f"giotto TDA, approximation of {metric} distance"}
+    for p in [1, 2, 3]:
+        dist_dict_H0[p] = {}
+        dist_dict_H1[p] = {}
+        for set in range(5):
+            id_list = get_qaoa_ids(p, set)
+            distance_matrices = compute_landscape_distance_for_all_using_giotto(p, set)
+            dist_dict_H0[p][set] = {"p": p, "set": set, "id list": id_list, "distances matrix": distance_matrices[:,:,0].tolist()}
+            dist_dict_H1[p][set] = {"p": p, "set": set, "id list": id_list, "distances matrix": distance_matrices[:,:,1].tolist()}
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print(f"[DONE] {now}: p={p}, set={set}")
+    # save results
+    ANALYSIS_BASE_DIR.mkdir(exist_ok=True)
+    file_H0 = ANALYSIS_BASE_DIR / f"QAOA_{metric}_H0.json"
+    file_H1 = ANALYSIS_BASE_DIR / f"QAOA_{metric}_H1.json"
+    file_H0.write_text(json.dumps(dist_dict_H0, indent=4))
+    file_H1.write_text(json.dumps(dist_dict_H1, indent=4))
+
+def landscape_main_variable_p():
+    metric = "landscape"
+    dist_dict_H0 = {"info": f"{metric} distance between qaoa persistence diagrams (homology dimension 0) per p and sample set.", "source files": str(RIPSER_BASE_DIR), "homology dimension": 0, "python library": f"giotto TDA, approximation of {metric} distance"}
+    dist_dict_H1 = {"info": f"{metric} distance between qaoa persistence diagrams (homology dimension 1) per p and sample set.", "source files": str(RIPSER_BASE_DIR), "homology dimension": 1, "python library": f"giotto TDA, approximation of {metric} distance"}
+    for num_qubits in [3,6,9,12,15,18]:
+        dist_dict_H0[num_qubits] = {}
+        dist_dict_H1[num_qubits] = {}
+        for set in range(5):
+            id_list = get_qaoa_ids(p=1, set=set, num_qubits=num_qubits)
+            distance_matrices = compute_landscape_distance_for_all_using_giotto_variable_p(num_qubits, set)
+            dist_dict_H0[num_qubits][set] = {"num_qubits": num_qubits, "set": set, "id list": id_list, "distances matrix": distance_matrices[:,:,0].tolist()}
+            dist_dict_H1[num_qubits][set] = {"num_qubits": num_qubits, "set": set, "id list": id_list, "distances matrix": distance_matrices[:,:,1].tolist()}
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            print(f"[DONE] {now}: num_qubits={num_qubits}, set={set}")
+    # save results
+    ANALYSIS_BASE_DIR.mkdir(exist_ok=True)
+    file_H0 = ANALYSIS_BASE_DIR / f"QAOA_{metric}_variable_p_H0.json"
+    file_H1 = ANALYSIS_BASE_DIR / f"QAOA_{metric}_variable_p_H1.json"
+    file_H0.write_text(json.dumps(dist_dict_H0, indent=4))
+    file_H1.write_text(json.dumps(dist_dict_H1, indent=4))
+
+
+#############################
+
+
+
+
 if __name__=="__main__":
-    main_variable_p(metric="wasserstein")
-    main_variable_p(metric="bottleneck")
+    plot_persistence_images()
+    #plot_persistence_landscapes()
+    # for hdim in [0,1]:
+    #     #compute_statistics_of_distance_per_num_qubits_and_set(metric = "landscape", homology_dim=hdim)
+    #     #compute_statistics_of_distance_per_p_and_set(metric="landscape", homology_dim=hdim)
+    #     for stat in ["median", "mean", "std"]:
+    #         plot_heatmaps_all_p_all_homologies(metric="landscape", statistic=stat)
+    #         plot_heatmaps_all_sets(metric="landscape", homology_dim=hdim, statistic=stat)
+    #main_variable_p(metric="wasserstein")
+    #main_variable_p(metric="bottleneck")
     #main()
     # for statistic in ["mean", "std", "median"]:
     #     for metric in ["bottleneck", "wasserstein"]:
