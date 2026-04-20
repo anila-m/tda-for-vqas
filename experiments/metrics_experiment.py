@@ -45,9 +45,9 @@ max_gamma=np.pi
 max_beta=np.pi/2
 min_gamma= - np.pi #-3.05
 min_beta= - np.pi/2 #-1.5
-#qaoa_grid_size = [5,5,5]
+qaoa_grid_size = [5,5,5]
 #qaoa_grid_size = [1000, 33, 10] # grid sizes for QAOA, keys are p values, all grids have roughly 1M grid points
-qaoa_grid_size = [707, 26, 9] # lower grid sized for QAPA, all grids have roughly 500K grid points
+#qaoa_grid_size = [707, 26, 9] # lower grid sized for QAPA, all grids have roughly 500K grid points
 cpu_count = os.cpu_count() 
 
 def get_qaoa_ids(p=None, num_qubits = None):
@@ -183,6 +183,7 @@ def compute_roughness_metrics_for_qaoa():
     print(f"[START] {now}")
     timestamp = generate_timestamp_str()
     id_list = get_qaoa_ids()
+    i = 0
     #print(id_list)
     # for file in landscape_directory.iterdir():
     #     compute_roughness_metrics_per_landscape(file, vqa_type)
@@ -194,7 +195,8 @@ def compute_roughness_metrics_for_qaoa():
             id, metrics = future.result()
             roughness_dict[id] = metrics
             now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            print(f"[DONE] {now}: {id}")
+            i += 1
+            print(f"[DONE] {now}: {i} / 90")
     
     
     metrics_file = METRICS_DIR / f"QAOA_roughness_metrics_{timestamp}.json"
