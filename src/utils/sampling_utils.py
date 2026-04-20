@@ -1,7 +1,7 @@
 import numpy as np
 import scipy as sp
 from scipy.stats import qmc
-
+import math
 
 """
 Several sampling strategies for n-dimensional hypercubes.
@@ -82,3 +82,57 @@ def get_grid_samples(min, max, dim, number_of_samples=10000):
         sample = values_per_dimension[tuple(range(dim)),idx]
         sample_points.append(sample)
     return np.asarray(sample_points) 
+
+def get_grid_landscapes_from_stepsize(min, grid_size, loss_func, step_size):
+    '''
+    Generates dim-dimensional grid sample points. The number of sample points N per dimension is dependant on the specified step size.
+    Returns a dim-dimenionsal numpy array (loss landscape).
+    
+    :param min: defines lower left corner of hypercube [min, ..., min]
+    :param gridsize: defines number of points in each dimension, i.e. numpy array of dimension dim
+    :param dim: dimension of hypercube
+    :param loss_func: loss function. Takes numpy array of dimension dim as input and ouputs a loss value
+    :param stepsize: stepsize in each dimension, i.e. numpy array of dimension dim.
+    
+    '''
+    assert min.shape == grid_size.shape
+    assert min.shape == step_size.shape
+    dim = min.shape[0]
+    # calculate the parameter values for the grid size, evenly spread from 0 to 2 pi
+    coordinates = []
+    for dir in range(dim):
+        low = min[dir]
+        high = low + (grid_size[dir])*step_size[dir]
+        coord = np.arange(low, high, step_size[dir])
+        coordinates.append(coord)
+    #step_size = lanscape_limit / (grid_size-1) # <- more evenly spread samples
+    # generate landscape
+    landscape_shape = []
+    # 5, 9 [9][9][9][9][9]
+    for dir in range(dim):
+        landscape_shape.append(grid_size[dir])
+    landscape_shape = tuple(landscape_shape)
+    landscape = np.empty(tuple(grid_size.astype(np.int64)))
+    # for every point
+    for idx, _ in np.ndenumerate(landscape):  
+        sample_point =  [] 
+        # generate param array
+        #print("idx", idx)
+        i = 0
+        for dimension in idx: # idx = [a,b,c,d,e,f] wobei alle zwischen 0 und 15 sind --> index eines Gitterpunkts, welcher Parameter für qnn is
+            sample_point.append(coordinates[i][dimension]) 
+            i += 1
+        # calculate loss
+        sample_point = np.asarray(sample_point) # Gitterpunkt x für objective(x)
+        loss = loss_func(sample_point) 
+        landscape[idx]=loss
+    return coordinates, landscape
+
+
+
+if __name__=="__main__":
+    def f(x):
+        return np.sum(x)
+    l = get_grid_landscapes_from_stepsize(np.asarray([-3,-3,-1.5, -1.5]), np.asarray([3,3,2,2]), f, 1)
+    print(l)
+

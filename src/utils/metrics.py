@@ -9,6 +9,13 @@ from src.utils.metric_utils import *
 #from landscapes import *
 from src.utils.data_utils import calc_hessian, sample_n_ball_uniform, get_hypersphere_volume
 
+def calc_TV_FD_ASC_for_grid_landscape(landscape):
+    sc = calc_scalar_curvature(landscape)
+    tv = calc_total_variation(landscape)
+    fd = calc_fourier_density(landscape)
+    asc = np.mean(np.absolute(sc))
+    return asc, sc, tv, fd
+
 
 def calc_TV_ASC_for_function(function, sample_points, lower_left, upper_right):
     '''
