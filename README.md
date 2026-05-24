@@ -1,6 +1,6 @@
-# TOPOLOGICAL DATA ANALYSIS FOR VQA COST LANDSCAPES
+# Exploring Cost Landscapes of Variational Quantum Algorithms via Topological Data Analysis
 
-Experiment/Code for reproduction of results for the research project "Exploring Cost Landscapes of Variational Quantum Algorithms via Topological Data Analysis " by Alina Mürwald (2026). 
+Experiment/Code for reproduction of results for the research project "Exploring Cost Landscapes of Variational Quantum Algorithms via Topological Data Analysis" by Alina Mürwald (2026). 
 
 It uses topological data analysis to analyze the structure of cost landscapes of Variational Quantum Algorithms (VQAs), like Quantum Neural Networks (QNNs) and the Quantum Approximate Optimizer Algorithm (QAOA). 
 
