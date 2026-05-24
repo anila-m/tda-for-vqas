@@ -7,14 +7,17 @@ It uses topological data analysis to analyze the structure of cost landscapes of
 ## Directory
 
 All experiment results are available in the folder experiment_results.
+
 All files needed to reproduce the results are available in the folder experiments. 
 
 
 ## Sources
 
 The source code for the VQA cost landscapes were adapted from existing open-source projects and research:
--The QNN source code: Adapted from the repository accompanying the master thesis of Ülger ([GitHub Repository](https://github.com/vic-it/master-thesis)).
--The QAOA source code: Adapted from the repository accompanying the paper *Connecting the Hamiltonian structure to the QAOA energy and Fourier landscape structure.* by Stęchły, et al. ([GitHub Repository](https://github.com/Boniface316/qaoa_landscape)).
+* The **QNN** source code: Adapted from the repository accompanying the master thesis *Analyzing the Effect of Entanglement of Training Samples on the Loss Landscape of Quantum Neural Networks* of Ülger ([GitHub Repository](https://github.com/vic-it/master-thesis)).
+* The **QAOA** source code: Adapted from the repository accompanying the paper *Connecting the Hamiltonian structure to the QAOA energy and Fourier landscape structure.* by Stęchły, et al. ([GitHub Repository](https://github.com/Boniface316/qaoa_landscape)).
+
+The implementations of the roughness metrics (Total Variation, Absolute Scalar Curvature and Fourier Density) were taken from the master thesis *Analyzing the Effect of Entanglement of Training Samples on the Loss Landscape of Quantum Neural Networks* of Ülger ([GitHub Repository](https://github.com/vic-it/master-thesis)).
 
 The Scikit-TDA and Giotto-tda libraries were used to compute persistence diagrams, landscapes and distances.
 
