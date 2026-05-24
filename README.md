@@ -1,25 +1,26 @@
 # TOPOLOGICAL DATA ANALYSIS FOR VQA COST LANDSCAPES
 
-Experiment/Code for reproduction of results for the research project "..." by Lukas Gillich and Alina Mürwald (2025/2026). 
+Experiment/Code for reproduction of results for the research project "Exploring Cost Landscapes of Variational Quantum Algorithms via Topological Data Analysis " by Alina Mürwald (2026). 
 
-It uses topological data analysis to analyze the structure of cost landscapes of Variational Quantum Algorithms (VQAs), like Quantum Neural Networks (QNNs), the Quantum Approximate Optimizer Algorithm (QAOA) and the Variational Quantum Eigensolver (VQE).
+It uses topological data analysis to analyze the structure of cost landscapes of Variational Quantum Algorithms (VQAs), like Quantum Neural Networks (QNNs) and the Quantum Approximate Optimizer Algorithm (QAOA). 
 
-## Quick Start
+## Directory
 
-TODO
+All experiment results are available in the folder experiment_results.
+All files needed to reproduce the results are available in the folder experiments. 
+
 
 ## Sources
 
-The source code for the VQA cost landscapes were adapted from other projects: 
--The QNN source code was adapted from ....
--The QAOA source code was adapted from ...
--The VQE source code was adapted from ...
+The source code for the VQA cost landscapes were adapted from existing open-source projects and research:
+-The QNN source code: Adapted from the repository accompanying the master thesis of Ülger ([GitHub Repository](https://github.com/vic-it/master-thesis)).
+-The QAOA source code: Adapted from the repository accompanying the paper *Connecting the Hamiltonian structure to the QAOA energy and Fourier landscape structure.* by Stęchły, et al. ([GitHub Repository](https://github.com/Boniface316/qaoa_landscape)).
 
-The xyz library was used to compute persistence diagrams and landscapes.
+The Scikit-TDA and Giotto-tda libraries were used to compute persistence diagrams, landscapes and distances.
 
 ## Dependencies
 
-The experiments were run using Python 3.10.11
+The experiments were run using Python 3.10.11.
 All required packages are detailed in `requirements_3.10.11.txt`. Install them by running the following command: ``pip install -r requirements_3.10.11.txt``.
 The orqviz package has to be upgraded manually: ``pip install --upgrade --no-cache-dir --use-deprecated=legacy-resolver orqviz``.
 
