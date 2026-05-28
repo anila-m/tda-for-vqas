@@ -275,7 +275,8 @@ def get_first_order_gradient_of_point(derivative_direction, target_point, landsc
     Returns:
         float: the first order gradient of the target point in the landscape in the target direction
     """
-    grid_size = len(landscape[0])
+    grid_size = landscape.shape[derivative_direction]
+
     if target_point[derivative_direction] == 0:
         # forward diff
         leftid = list(target_point)

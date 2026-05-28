@@ -73,7 +73,7 @@ def save_persistence_diagrams(ripser_result, N, ham_file_label, sample_points_fi
     with open(os.path.join(dir, file_name), "w") as f:
         json.dump(dict, f, indent=4)
 
-
+# this function was written with the help of a generative AI tool 
 def ripser_list_to_giotto(all_ripser_dgms):
     """
     Converts a list of Ripser persistence diagrams into one 3D array for Giotto-TDA.

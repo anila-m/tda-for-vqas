@@ -35,14 +35,19 @@ def get_qaoa_ids(p, set = None, num_qubits = None):
     """
     assert p in [1,2,3]
     assert num_qubits in [3,6,9,12,15,18, None]
-    assert set in range(5)
+    assert set in [0,1,2,3,4,None]
     if num_qubits == None:
         if set == None:
             id_list = [(p-1)*(5*6*5)+set*(6*5)+i for i in range(30) for set in range(5)]
         else:
             id_list = [(p-1)*(5*6*5)+set*(6*5)+i for i in range(30)]
+    elif set == None:
+        id_list = [(p-1)*(5*6*5)+set*(6*5)+(num_qubits//3-1)*5+run for set in range(5) for run in range(5)]
     else:
-        id_list = [(p_value-1)*(5*6*5)+set*(6*5)+(num_qubits//3-1)*5+run for p_value in range(1,4) for run in range(5)]
+        if set == None:
+            id_list = [(p_value-1)*(5*6*5)+set*(6*5)+(num_qubits//3-1)*5+run for p_value in range(1,4) for run in range(5)]
+        else:
+            id_list = [(p_value-1)*(5*6*5)+set*(6*5)+(num_qubits//3-1)*5+run for p_value in range(1,4) for run in range(5)]
     return id_list
 
 

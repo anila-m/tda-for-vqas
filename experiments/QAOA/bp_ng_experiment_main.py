@@ -315,13 +315,28 @@ def plot_loss_landscape2():
     plt.savefig('interpolated.png',dpi=100)
     #plt.close(fig)
 
-def plot_loss_landscape_interpolated(landscape, directory, filename):
+def plot_loss_landscape_interpolated(directory, filename,vlines=[0.85, 0.35, 0.1], vlabels=["1/2", "1/4", "1/8"]):
+    """
+    Plots an interpolated loss landscape with an orange perimeter box 
+    and vertical dotted lines to divide the parameter space.
     
+    Parameters:
+    - landscape: np.ndarray containing columns for gamma, beta, and loss
+    - directory: Path object or string specifying the output directory
+    - filename: String specifying the output filename
+    - vlines: List of 3 x-values where the vertical dotted lines should be placed
+    """
+
+    # load landscape
+    file = directory / filename
+    data = json.load(open(file))
+    landscape = np.asarray(data.get("landscape", data.get("loss landscape")))
+
     gamma = landscape[:,0]
     beta = landscape[:,1]
     loss = landscape[:,2]
 
-    # dense grid
+    # Dense grid
     grid_gamma, grid_beta = np.mgrid[
         gamma.min():gamma.max():200j, 
         beta.min():beta.max():200j
@@ -330,8 +345,10 @@ def plot_loss_landscape_interpolated(landscape, directory, filename):
     # Interpolate the scattered data onto the grid
     grid_loss = griddata((gamma, beta), loss, (grid_gamma, grid_beta), method='nearest')
 
-    plt.figure(figsize=(8, 6))
-    plt.imshow(
+    # Initialize plot using subplots
+    fig, ax = plt.subplots(figsize=(8, 6))
+    
+    im = ax.imshow(
         grid_loss.T, 
         extent=(gamma.min(), gamma.max(), beta.min(), beta.max()),
         origin='lower', 
@@ -339,10 +356,42 @@ def plot_loss_landscape_interpolated(landscape, directory, filename):
         cmap="viridis"
     )
     
-    plt.colorbar(label='Loss')
-    plt.xlabel("gamma")
-    plt.ylabel("beta")
-    plt.savefig(directory/filename)
+    ###### boxes to show landscape excerpts
+    # Box around the entire perimeter of the plot (axes borders)
+    for spine in ax.spines.values():
+        spine.set_color('orange')
+        spine.set_linewidth(2.5)  # Adjust thickness as preferred
+
+    # Add vertical dotted orange lines to divide the parameter space
+    for xc, label in zip(vlines, vlabels):
+        # Draw the vertical line
+        ax.axvline(x=xc, color='orange', linestyle=':', linewidth=2)
+        
+        # Position the text vertically near the top edge of the plot area
+        # (5% below the maximum beta value)
+        y_pos = beta.max() - 0.05 * (beta.max() - beta.min())
+        
+        ax.text(
+            x=xc, 
+            y=y_pos, 
+            s=f" {label}",        # Leading space acts as a small horizontal offset from the line
+            color='orange', 
+            fontsize=12, 
+            va='top',             # Vertically align from the top of the text
+            ha='left'             # Horizontally align to the right of the line
+        )
+    
+    # Add colorbar, labels, and save
+    cbar = fig.colorbar(im)
+    cbar.set_label(r"Cost $C(\gamma, \beta)$", fontsize=14)
+    cbar.ax.tick_params(labelsize=14)
+    ax.set_xlabel(r"$\gamma$", fontsize=14)
+    ax.set_ylabel(r"$\beta$", fontsize=14)
+    ax.tick_params(axis='both', labelsize=14)
+    
+    plot_name = "landscape_interpolated_withBoxes.pdf"
+    fig.savefig(directory / plot_name, bbox_inches='tight')
+    plt.close(fig)
 
 def compute_distance_for_all_k_using_giotto(RESOURCE_DIR, grid= True, metric = "bottleneck"):
     persistence_diagram_list = []
@@ -397,6 +446,8 @@ def compute_distance_for_all_k_using_giotto(RESOURCE_DIR, grid= True, metric = "
     plt.savefig(file_dir / f'BP_NG_heatmap_{metric}.pdf')
     plt.close()
 
+
+
 if __name__ == "__main__":
     #random()
     #determine_epsilon_for_gamma()
@@ -432,7 +483,10 @@ if __name__ == "__main__":
     # dir = BASE_DIR / "experiment_results/BP_NG/big_excerpt/grid_samples"
     # plot_loss_landscape_interpolated(dir, filename)
 
-    results_dir = RESULTS_BASE_DIR / "small_excerpt"
-    for H in range(1,3):
-        compute_bottleneck_distances(results_dir, h_dim=H, grid=True)
-        compute_bottleneck_distances(results_dir, h_dim=H, grid=False)
+    # results_dir = RESULTS_BASE_DIR / "small_excerpt"
+    # for H in range(1,3):
+    #     compute_bottleneck_distances(results_dir, h_dim=H, grid=True)
+    #     compute_bottleneck_distances(results_dir, h_dim=H, grid=False)
+    dir = BASE_DIR / "experiment_results" / "BP_NG" / "small_excerpt" / "LHS_samples"
+    file = "qaoa_id_20_landscape_BP_NG_LHS.json"
+    plot_loss_landscape_interpolated(dir, file)

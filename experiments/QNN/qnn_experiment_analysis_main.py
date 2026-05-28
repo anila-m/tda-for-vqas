@@ -261,7 +261,8 @@ def plot_heatmaps_all_unitaries(metric, homology_dim, statistic, transformed=Tru
 
 
     # Configuration for the plot
-    unitaries_to_plot = ['all', '0', '1', '2', '3', '4']
+    #unitaries_to_plot = ['all', '0', '1', '2', '3', '4']
+    unitaries_to_plot = ['all']
     sup_title = "{statistic} of {metric} distance"
     titles = ["all unitaries", "unitary 0", "unitary 1", 
             "unitary 2", "unitary 3", "unitary 4"]
@@ -277,24 +278,46 @@ def plot_heatmaps_all_unitaries(metric, homology_dim, statistic, transformed=Tru
     global_max = np.max(all_values)
 
     # Create a 3x2 grid of subplots
-    fig, axes = plt.subplots(3, 2, figsize=(12, 15))
-    axes = axes.flatten()
-    for i, set_key in enumerate(unitaries_to_plot):
-        if set_key == "all": matrix = np.array(data[set_key][statistic])
-        else:
-            matrix = np.array(data[set_key]["all"][statistic])
-        # Plotting the heatmap
-        sns.heatmap(matrix, annot=True, fmt=".2f", ax=axes[i], 
-                        xticklabels=sranks, yticklabels=sranks, cmap='viridis',
-                        vmin=global_min, vmax=global_max)
-            
-        axes[i].set_title(titles[i])
-        axes[i].set_xlabel('Schmidt Rank')
-        axes[i].set_ylabel('Schmidt Rank')
+    if len(unitaries_to_plot) > 1:
+        fig, axes = plt.subplots(3, 2, figsize=(12, 15))
+        axes = axes.flatten()
+        for i, set_key in enumerate(unitaries_to_plot):
+            if set_key == "all": matrix = np.array(data[set_key][statistic])
+            else:
+                matrix = np.array(data[set_key]["all"][statistic])
+            # Plotting the heatmap
+            sns.heatmap(matrix, annot=True, fmt=".2f", ax=axes[i], 
+                            xticklabels=sranks, yticklabels=sranks, cmap='viridis',
+                            vmin=global_min, vmax=global_max)
+                
+            axes[i].set_title(titles[i])
+            axes[i].set_xlabel('Schmidt Rank')
+            axes[i].set_ylabel('Schmidt Rank')
 
-    plt.tight_layout()
-    plt.savefig(HEATMAPS_DIR / f'QNN_{file_name}_heatmap_{metric}_H{homology_dim}_{statistic}.png')
-    plt.close()
+        plt.tight_layout()
+        plt.savefig(HEATMAPS_DIR / f'QNN_{file_name}_heatmap_{metric}_H{homology_dim}_{statistic}.pdf')
+        plt.close()
+    else: # single heatmap, for "all" unitaries
+        matrix = np.array(data["all"][statistic])
+
+        global_min = np.min(matrix)
+        global_max = np.max(matrix)
+
+        # Create single heatmap
+        plt.figure(figsize=(6, 5))
+
+        sns.heatmap(matrix, annot=True, fmt=".2f",
+                            xticklabels=sranks, yticklabels=sranks, cmap='viridis',
+                            vmin=global_min, vmax=global_max)
+
+        plt.xlabel("Schmidt Rank", fontsize=14)
+        plt.ylabel("Schmidt Rank", fontsize=14)
+
+        plt.tight_layout()
+
+        plt.savefig(HEATMAPS_DIR / f"QNN_{file_name}_heatmap_allUnitaries_{metric}_H{homology_dim}_{statistic}.pdf")
+
+        plt.close()
 
 def plot_heatmaps_all_p_all_homologies(metric, statistic):
     # Load the matrix data
@@ -340,6 +363,9 @@ if __name__=="__main__":
     for transformed in [True, False]:
         for hdim in [0,1]:
             #compute_statistics_of_distance_set("wasserstein", homology_dim=hdim, transformed=transformed)
+            plot_heatmaps_all_unitaries(metric="bottleneck", homology_dim=hdim, statistic="mean", transformed=transformed)
+            plot_heatmaps_all_unitaries(metric="bottleneck", homology_dim=hdim, statistic="median", transformed=transformed)
+            plot_heatmaps_all_unitaries(metric="bottleneck", homology_dim=hdim, statistic="std", transformed=transformed)
             plot_heatmaps_all_unitaries(metric="wasserstein", homology_dim=hdim, statistic="mean", transformed=transformed)
             plot_heatmaps_all_unitaries(metric="wasserstein", homology_dim=hdim, statistic="median", transformed=transformed)
             plot_heatmaps_all_unitaries(metric="wasserstein", homology_dim=hdim, statistic="std", transformed=transformed)

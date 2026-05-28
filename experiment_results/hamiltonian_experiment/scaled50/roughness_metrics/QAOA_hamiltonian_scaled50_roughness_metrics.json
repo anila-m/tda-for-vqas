@@ -1,0 +1,6232 @@
+{
+    "info": "Roughness metric values (Total Variation, Scalar Curvature, Fourier Density) for qaoa instances. Computed on grid landscapes, which are definied by entry in fields with keys landscape... ",
+    "source path": "/Users/alina/Documents/GitHub/tda-for-vqas/experiment_results/hamiltonian_experiment/scaled50/ripser_results",
+    "1": {
+        "qaoa id": 1,
+        "filename": "persistence_qaoa_1_flipped_True_scaled50_True_not_transformed_H1.json",
+        "hamiltonian": {
+            "terms": [
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -50,
+                        "imag": 0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                }
+            ]
+        },
+        "landscape min": [
+            -3.141592653589793,
+            -1.5707963267948966
+        ],
+        "landscape grid_size": [
+            125.0,
+            125.0
+        ],
+        "landscape stepsize": [
+            0.05026548245743669,
+            0.025132741228718346
+        ],
+        "average absolute scalar curvature": 0.07021203484625274,
+        "total variation": 409.2,
+        "fourier density": 26.501731
+    },
+    "5": {
+        "qaoa id": 5,
+        "filename": "persistence_qaoa_5_flipped_True_scaled50_True_not_transformed_H1.json",
+        "hamiltonian": {
+            "terms": [
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -50,
+                        "imag": 0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [],
+                    "coefficient": {
+                        "real": -0.0,
+                        "imag": 0.0
+                    }
+                }
+            ]
+        },
+        "landscape min": [
+            -3.141592653589793,
+            -1.5707963267948966
+        ],
+        "landscape grid_size": [
+            125.0,
+            125.0
+        ],
+        "landscape stepsize": [
+            0.05026548245743669,
+            0.025132741228718346
+        ],
+        "average absolute scalar curvature": 0.049117298931955114,
+        "total variation": 196.564,
+        "fourier density": 83.566503
+    },
+    "10": {
+        "qaoa id": 10,
+        "filename": "persistence_qaoa_10_flipped_True_scaled50_True_not_transformed_H1.json",
+        "hamiltonian": {
+            "terms": [
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -50,
+                        "imag": 0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [],
+                    "coefficient": {
+                        "real": -0.0,
+                        "imag": 0.0
+                    }
+                }
+            ]
+        },
+        "landscape min": [
+            -3.141592653589793,
+            -1.5707963267948966
+        ],
+        "landscape grid_size": [
+            125.0,
+            125.0
+        ],
+        "landscape stepsize": [
+            0.05026548245743669,
+            0.025132741228718346
+        ],
+        "average absolute scalar curvature": 0.021792814902545803,
+        "total variation": 94.748,
+        "fourier density": 193.006787
+    },
+    "15": {
+        "qaoa id": 15,
+        "filename": "persistence_qaoa_15_flipped_True_scaled50_True_not_transformed_H1.json",
+        "hamiltonian": {
+            "terms": [
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -50,
+                        "imag": 0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                }
+            ]
+        },
+        "landscape min": [
+            -3.141592653589793,
+            -1.5707963267948966
+        ],
+        "landscape grid_size": [
+            125.0,
+            125.0
+        ],
+        "landscape stepsize": [
+            0.05026548245743669,
+            0.025132741228718346
+        ],
+        "average absolute scalar curvature": 0.013281818209317472,
+        "total variation": 77.907,
+        "fourier density": 187.673349
+    },
+    "20": {
+        "qaoa id": 20,
+        "filename": "persistence_qaoa_20_flipped_True_scaled50_True_not_transformed_H1.json",
+        "hamiltonian": {
+            "terms": [
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -50,
+                        "imag": 0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                }
+            ]
+        },
+        "landscape min": [
+            -3.141592653589793,
+            -1.5707963267948966
+        ],
+        "landscape grid_size": [
+            125.0,
+            125.0
+        ],
+        "landscape stepsize": [
+            0.05026548245743669,
+            0.025132741228718346
+        ],
+        "average absolute scalar curvature": 0.0043573208849863555,
+        "total variation": 51.34,
+        "fourier density": 227.423822
+    },
+    "25": {
+        "qaoa id": 25,
+        "filename": "persistence_qaoa_25_flipped_True_scaled50_True_not_transformed_H1.json",
+        "hamiltonian": {
+            "terms": [
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -50,
+                        "imag": 0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 0,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 1,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 2,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 3,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 4,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 5,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 6,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 7,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 8,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 9,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 10,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 11,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 5.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 12,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -0.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 13,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -2.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -4.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 3.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 14,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 15,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": 4.5,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [
+                        {
+                            "qubit": 16,
+                            "op": "Z"
+                        },
+                        {
+                            "qubit": 17,
+                            "op": "Z"
+                        }
+                    ],
+                    "coefficient": {
+                        "real": -1.0,
+                        "imag": 0.0
+                    }
+                },
+                {
+                    "pauli_ops": [],
+                    "coefficient": {
+                        "real": 0.0,
+                        "imag": 0.0
+                    }
+                }
+            ]
+        },
+        "landscape min": [
+            -3.141592653589793,
+            -1.5707963267948966
+        ],
+        "landscape grid_size": [
+            125.0,
+            125.0
+        ],
+        "landscape stepsize": [
+            0.05026548245743669,
+            0.025132741228718346
+        ],
+        "average absolute scalar curvature": 0.0059922528692709885,
+        "total variation": 58.192,
+        "fourier density": 230.983452
+    }
+}

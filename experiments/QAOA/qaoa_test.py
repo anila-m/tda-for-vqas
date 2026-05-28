@@ -22,6 +22,8 @@ from persim import plot_diagrams
 from matplotlib import pyplot as plt
 from scipy.stats import qmc
 
+import plotly.graph_objects as go
+
 
 
 
@@ -228,15 +230,14 @@ def main():
                 text_file.write("\n" + output_line)
 
 
-
-
-
-
 if __name__ == "__main__":
     #qaoa_transformed_main()
     #main()
     #generate_loss_landscapes_for_test()
-    #qaoa_h2_test()
-    print("successful")
+    qaoa_h2_test()
+    
+    
+
+    
     
 
